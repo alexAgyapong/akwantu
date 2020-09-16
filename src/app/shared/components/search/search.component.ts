@@ -12,12 +12,18 @@ export class SearchComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.setupForm();
+    this.searchForm.valueChanges.subscribe(input => console.log({input }));
+  }
+
+
+  private setupForm(): void {
     this.searchForm = this.fb.group({
       from: [''],
       to: [''],
       departureDate: [''],
       returnDate: [''],
+      tripType: ['return']
     });
   }
-
 }

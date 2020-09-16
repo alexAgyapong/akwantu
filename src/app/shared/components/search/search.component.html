@@ -1,10 +1,22 @@
 <form [formGroup]="searchForm">
+  <div class="custom-control custom-radio custom-control-inline py-3">
+    <input type="radio" id="return" name="tripType" value="return" class="custom-control-input" formControlName="tripType">
+    <label class="custom-control-label" for="return">Return</label>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="oneWay" name="tripType" value="oneWay" class="custom-control-input" formControlName="tripType">
+    <label class="custom-control-label" for="oneWay">One way</label>
+  </div>
+  <div class="custom-control custom-radio custom-control-inline">
+    <input type="radio" id="multi" name="tripType" value="multi" class="custom-control-input" formControlName="tripType">
+    <label class="custom-control-label" for="multi">Multi</label>
+  </div>
   <div class="form-row">
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
       <label>From</label>
       <input class="form-control" type="search" id="from" formControlName="from">
     </div>
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-2">
       <label>To</label>
       <input class="form-control" type="search" id="to" formControlName="from">
     </div>
@@ -20,9 +32,14 @@
         </div>
       </div>
     </div>
-    <div class="form-group col-sm-2">
-      <label></label>
-      <button class="btn btn-primary btn-block mt-sm-2" type="submit">Search</button>
+    <div class="form-group col-sm-4">
+      <label>Cabin class & travellers</label>
+     <button class="form-control btn btn-default"><span>Test me</span></button>
+    </div>
+  </div>
+  <div class="form-row d-flex">
+    <div class="form-group col-sm-5 align-self-sm-end">
+      <button class="btn btn-primary btn-block" type="submit">Search</button>
     </div>
   </div>
 </form>
