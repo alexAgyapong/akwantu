@@ -10,3 +10,18 @@
   height: 100vh;
   background-color: red;
 }
+
+.plain-text{
+  width: 3rem;
+  border: none;
+}
+
+.btn-icon{
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.icon-display {
+  transform: scale(1.5);
+}

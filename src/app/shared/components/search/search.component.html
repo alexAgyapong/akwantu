@@ -82,10 +82,37 @@
     </div>
     <div class="form-group col-12">
       <div class="d-flex justify-content-between align-items-center"><span>Adult 12+</span>
-        <button class="btn" (click)="decreaseNumber('adults')">-</button>
-          <input type="text" formControlName="adults"/>
-          <button class="btn" (click)="increaseNumber('adults')">+</button>
-        </div>
+        <button class="btn-icon" (click)="decreaseNumber('adults')">
+          <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
+        </button>
+        <input type="text" class="plain-text text-center" formControlName="adults" />
+        <button class="btn-icon" (click)="increaseNumber('adults')">
+          <mat-icon class="icon-display text-secondary">control_point</mat-icon>
+        </button>
+      </div>
     </div>
+    <div class="form-group col-12">
+      <div class="d-flex justify-content-between align-items-center"><span>Children</span>
+        <button class="btn-icon" (click)="decreaseNumber('children')">
+          <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
+        </button>
+        <input type="text" class="plain-text text-center" formControlName="children" />
+        <button class="btn-icon" (click)="increaseNumber('children')">
+          <mat-icon class="icon-display text-secondary">control_point</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="form-group col-12">
+      <div class="d-flex justify-content-between align-items-center"><span>Infants</span>
+        <button class="btn-icon" (click)="decreaseNumber('infants')">
+          <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
+        </button>
+        <input type="text" class="plain-text text-center" formControlName="infants" />
+        <button class="btn-icon" (click)="increaseNumber('infants')">
+          <mat-icon class="icon-display text-secondary">control_point</mat-icon>
+        </button>
+      </div>
+    </div>
+
   </form>
 </ng-template>
