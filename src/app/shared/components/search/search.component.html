@@ -38,13 +38,14 @@
     <div class="form-group col-sm-4 d-none d-sm-block">
       <label>Cabin class & travellers</label>
       <button class="form-control btn btn-default" [popover]="travellersDesktop"
-        popoverTitle="Template ref content inside" placement="bottom" containerClass="test"><span>Test
-          me</span></button>
+        popoverTitle="Template ref content inside" placement="bottom" containerClass="test"><span>
+          {{classAndTravellers}}</span></button>
     </div>
     <div class="form-group col-sm-4 d-block d-sm-none">
       <label>Cabin class & travellers</label>
-      <button class="form-control btn btn-default" (click)="showTravellersModal(travellersMobile)"><span>Test
-          me</span></button>
+      <button class="form-control btn btn-default" (click)="showTravellersModal(travellersMobile)">
+        <span> {{classAndTravellers}}</span>
+      </button>
     </div>
   </div>
   <div class="form-row">

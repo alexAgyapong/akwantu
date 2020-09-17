@@ -10,6 +10,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   modalRef: BsModalRef;
+  classAndTravellers: string;
 
   get adultsControl(): FormControl {
     return this.searchForm.get('adults') as FormControl;
@@ -34,7 +35,14 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupForm();
-    this.searchForm.valueChanges.subscribe(input => console.log({ input }));
+    if (!this.classAndTravellers) { this.classAndTravellers = `1 traveller, Economy`; }
+    this.searchForm.valueChanges.subscribe(input => {
+      console.log({ input });
+      const allTravellers = (+input?.adults) + (+input?.children) + (+input?.infants);
+      this.classAndTravellers = `${allTravellers} travellers, ${input?.travelClass}`;
+      console.log({ allTravellers });
+
+    });
   }
 
 
@@ -76,7 +84,7 @@ export class SearchComponent implements OnInit {
     const numOfInfants = +this.infantsControl.value;
     switch (type) {
       case 'adults':
-        if (numOfAdults > 0) { this.adultsControl.setValue(numOfAdults - 1); }
+        if (numOfAdults > 1) { this.adultsControl.setValue(numOfAdults - 1); }
         break;
       case 'children':
         if (numOfchildren > 0) { this.childrenControl.setValue(numOfchildren - 1); }
