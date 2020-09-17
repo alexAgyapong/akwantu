@@ -4,6 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { of } from 'rxjs';
 import { tap, switchMap } from "rxjs/operators";
 import { LocationService } from './../../services/location.service';
+import { TokenService } from './../../services/token.service';
 
 @Component({
   selector: 'app-search',
@@ -36,7 +37,10 @@ export class SearchComponent implements OnInit {
     { name: 'First', value: 'FIRST' }
   ];
 
-  constructor(private fb: FormBuilder, private locationService: LocationService, private bsModalService: BsModalService) { }
+  constructor(private fb: FormBuilder,
+    private locationService: LocationService,
+    private tokenService: TokenService,
+    private bsModalService: BsModalService) { }
 
   ngOnInit(): void {
     this.setupForm();
@@ -48,6 +52,11 @@ export class SearchComponent implements OnInit {
       console.log({ allTravellers });
 
     });
+
+    // this.tokenService.getAccessToken().subscribe(res => console.log({ res }));
+
+    this.suggestions$ = of(this.searchForm.get('from').value)
+    .pipe(switchMap((query: string) => this.locationService.getLocation(query)));
   }
 
 

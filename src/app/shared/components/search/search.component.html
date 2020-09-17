@@ -17,7 +17,9 @@
   <div class="form-row">
     <div class="form-group col-sm-2">
       <label>From</label>
-      <input class="form-control" role="button" type="search" id="from" formControlName="from" (click)="showAutocomplete()">
+      <input class="form-control" role="button" type="search" id="from" formControlName="from"
+      [typeahead]="suggestions$"
+      [typeaheadAsync]="true">
     </div>
     <div class="form-group col-sm-2">
       <label>To</label>

@@ -13,6 +13,7 @@ import { SearchComponent } from './shared/components/search/search.component';
 /* Libraries */
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 
 @NgModule({
@@ -29,7 +30,9 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     MaterialModule,
     AppRoutingModule,
     ModalModule.forRoot(),
-    PopoverModule.forRoot()
+    PopoverModule.forRoot(),
+    TypeaheadModule.forRoot()
+
   ],
   providers: [],
   bootstrap: [AppComponent]
