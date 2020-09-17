@@ -1,6 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { of } from 'rxjs';
+import { tap, switchMap } from "rxjs/operators";
+import { LocationService } from './../../services/location.service';
 
 @Component({
   selector: 'app-search',
@@ -11,6 +14,8 @@ export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   modalRef: BsModalRef;
   classAndTravellers: string;
+  searchTerm: string;
+  suggestions$: any;
 
   get adultsControl(): FormControl {
     return this.searchForm.get('adults') as FormControl;
@@ -31,7 +36,7 @@ export class SearchComponent implements OnInit {
     { name: 'First', value: 'FIRST' }
   ];
 
-  constructor(private fb: FormBuilder, private bsModalService: BsModalService) { }
+  constructor(private fb: FormBuilder, private locationService: LocationService, private bsModalService: BsModalService) { }
 
   ngOnInit(): void {
     this.setupForm();
@@ -101,5 +106,11 @@ export class SearchComponent implements OnInit {
       class: 'full-screen'
     };
     this.modalRef = this.bsModalService.show(template);
+  }
+
+  showAutocomplete(): void {
+    console.log('autocompelete');
+    this.suggestions$ = of(this.searchTerm)
+      .pipe(switchMap((query: string) => this.locationService.getLocation(query)));
   }
 }

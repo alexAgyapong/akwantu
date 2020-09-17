@@ -17,13 +17,13 @@
   <div class="form-row">
     <div class="form-group col-sm-2">
       <label>From</label>
-      <input class="form-control" type="search" id="from" formControlName="from">
+      <input class="form-control" role="button" type="search" id="from" formControlName="from" (click)="showAutocomplete()">
     </div>
     <div class="form-group col-sm-2">
       <label>To</label>
       <input class="form-control" type="search" id="to" formControlName="from">
     </div>
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
       <div class="d-flex">
         <div class="form-group">
           <label>Depart</label>
@@ -35,25 +35,29 @@
         </div>
       </div>
     </div>
-    <div class="form-group col-sm-4 d-none d-sm-block">
+    <div class="form-group col-sm-3 d-none d-sm-block">
       <label>Cabin class & travellers</label>
       <button class="form-control btn btn-default" [popover]="travellersDesktop"
         popoverTitle="Template ref content inside" placement="bottom" containerClass="test"><span>
           {{classAndTravellers}}</span></button>
     </div>
-    <div class="form-group col-sm-4 d-block d-sm-none">
+    <div class="form-group col-sm-3 d-block d-sm-none">
       <label>Cabin class & travellers</label>
       <button class="form-control btn btn-default" (click)="showTravellersModal(travellersMobile)">
         <span> {{classAndTravellers}}</span>
       </button>
     </div>
+    <div class="form-group col-sm-2 mt-2">
+      <label></label>
+      <button class="btn btn-primary btn-block" type="submit">Search</button>
+    </div>
   </div>
-  <div class="form-row">
+  <!-- <div class="form-row">
     <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, eos?</span>
     <span class="form-group col-sm-3 ml-auto">
       <button class="btn btn-primary btn-block" type="submit">Search</button>
     </span>
-  </div>
+  </div> -->
 </form>
 
 <ng-template class="test" #travellersDesktop>
