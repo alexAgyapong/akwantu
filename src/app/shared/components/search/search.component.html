@@ -1,14 +1,17 @@
 <form [formGroup]="searchForm">
   <div class="custom-control custom-radio custom-control-inline py-3">
-    <input type="radio" id="return" name="tripType" value="return" class="custom-control-input" formControlName="tripType">
+    <input type="radio" id="return" name="tripType" value="return" class="custom-control-input"
+      formControlName="tripType">
     <label class="custom-control-label" for="return">Return</label>
   </div>
   <div class="custom-control custom-radio custom-control-inline">
-    <input type="radio" id="oneWay" name="tripType" value="oneWay" class="custom-control-input" formControlName="tripType">
+    <input type="radio" id="oneWay" name="tripType" value="oneWay" class="custom-control-input"
+      formControlName="tripType">
     <label class="custom-control-label" for="oneWay">One way</label>
   </div>
   <div class="custom-control custom-radio custom-control-inline">
-    <input type="radio" id="multi" name="tripType" value="multi" class="custom-control-input" formControlName="tripType">
+    <input type="radio" id="multi" name="tripType" value="multi" class="custom-control-input"
+      formControlName="tripType">
     <label class="custom-control-label" for="multi">Multi</label>
   </div>
   <div class="form-row">
@@ -32,14 +35,66 @@
         </div>
       </div>
     </div>
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-4 d-none d-sm-block">
       <label>Cabin class & travellers</label>
-     <button class="form-control btn btn-default"><span>Test me</span></button>
+      <button class="form-control btn btn-default" [popover]="travellersDesktop" popoverTitle="Template ref content inside"
+        placement="bottom" containerClass="test"><span>Test me</span></button>
+    </div>
+    <div class="form-group col-sm-4 d-block d-sm-none">
+      <label>Cabin class & travellers</label>
+      <button class="form-control btn btn-default" (click)="showTravellersModal(travellersMobile)"><span>Test me</span></button>
     </div>
   </div>
-  <div class="form-row d-flex">
-    <div class="form-group col-sm-5 align-self-sm-end">
+  <div class="form-row">
+    <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, eos?</span>
+    <span class="form-group col-sm-3 ml-auto">
       <button class="btn btn-primary btn-block" type="submit">Search</button>
-    </div>
+    </span>
   </div>
 </form>
+
+<ng-template class="test" #travellersDesktop>
+  <h2>Testiing here.... lorem30</h2>
+  <div *ngTemplateOutlet="formTemplate">
+  </div>
+</ng-template>
+
+<ng-template #travellersMobile>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngTemplateOutlet="formTemplate">
+  </div>
+</ng-template>
+
+<ng-template #formTemplate>
+  <form [formGroup]="searchForm">
+    <div class="form-group col-12">
+      <label>Cabin class</label>
+      <select class="custom-select" formControlName="travelClass">
+        <option *ngFor="let item of travelClasses" [value]="item?.value">{{item?.name}}</option>
+      </select>
+    </div>
+    <div class="form-group col-12">
+      <label>Cabin class</label>
+      <select class="custom-select" formControlName="travelClass">
+        <option *ngFor="let item of travelClasses" [value]="item?.value">{{item?.name}}</option>
+      </select>
+    </div>
+    <div class="form-group col-12">
+      <label>Cabin class</label>
+      <select class="custom-select" formControlName="travelClass">
+        <option *ngFor="let item of travelClasses" [value]="item?.value">{{item?.name}}</option>
+      </select>
+    </div>
+    <div class="form-group col-12">
+      <label>Cabin class</label>
+      <select class="custom-select" formControlName="travelClass">
+        <option *ngFor="let item of travelClasses" [value]="item?.value">{{item?.name}}</option>
+      </select>
+    </div>
+  </form>
+</ng-template>

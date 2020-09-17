@@ -9,6 +9,11 @@ import { MaterialModule } from './material/material.module';
 import { SearchComponent } from './shared/components/search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+/* Libraries */
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +25,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ModalModule.forRoot(),
+    PopoverModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
