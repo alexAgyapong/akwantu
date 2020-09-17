@@ -10,8 +10,17 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   modalRef: BsModalRef;
+
   get adultsControl(): FormControl {
     return this.searchForm.get('adults') as FormControl;
+  }
+
+  get childrenControl(): FormControl {
+    return this.searchForm.get('children') as FormControl;
+  }
+
+  get infantsControl(): FormControl {
+    return this.searchForm.get('infants') as FormControl;
   }
 
   travelClasses: { name: string, value: string }[] = [
@@ -36,39 +45,44 @@ export class SearchComponent implements OnInit {
       departureDate: [''],
       returnDate: [''],
       tripType: ['return'],
-      travelClass: [''],
+      travelClass: ['Economy'],
       adults: ['1'],
-      children: [''],
-      infants: ['']
+      children: ['0'],
+      infants: ['0']
     });
   }
 
   increaseNumber(type: string): void {
     const numOfAdults = +this.adultsControl.value;
+    const numOfchildren = +this.childrenControl.value;
+    const numOfInfants = +this.infantsControl.value;
+
     switch (type) {
       case 'adults':
         this.adultsControl.setValue(numOfAdults + 1);
-        console.log('number of adults adults', this.adultsControl.value);
-
         break;
-
-      default:
+      case 'children':
+        this.childrenControl.setValue(numOfchildren + 1);
+        break;
+      case 'infants':
+        this.infantsControl.setValue(numOfInfants + 1);
         break;
     }
   }
 
   decreaseNumber(type: string): void {
     const numOfAdults = +this.adultsControl.value;
+    const numOfchildren = +this.childrenControl.value;
+    const numOfInfants = +this.infantsControl.value;
     switch (type) {
       case 'adults':
-        if (numOfAdults > 0) {
-          this.adultsControl.setValue(numOfAdults - 1);
-          console.log('number of adults adults', this.adultsControl.value);
-        }
-
+        if (numOfAdults > 0) { this.adultsControl.setValue(numOfAdults - 1); }
         break;
-
-      default:
+      case 'children':
+        if (numOfchildren > 0) { this.childrenControl.setValue(numOfchildren - 1); }
+        break;
+      case 'infants':
+        if (numOfInfants > 0) { this.infantsControl.setValue(numOfInfants - 1); }
         break;
     }
   }

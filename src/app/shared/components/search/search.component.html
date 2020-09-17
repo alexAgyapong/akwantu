@@ -80,37 +80,46 @@
         <option *ngFor="let item of travelClasses" [value]="item?.value">{{item?.name}}</option>
       </select>
     </div>
-    <div class="form-group col-12">
-      <div class="d-flex justify-content-between align-items-center"><span>Adult 12+</span>
-        <button class="btn-icon" (click)="decreaseNumber('adults')">
-          <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
-        </button>
-        <input type="text" class="plain-text text-center" formControlName="adults" />
-        <button class="btn-icon" (click)="increaseNumber('adults')">
-          <mat-icon class="icon-display text-secondary">control_point</mat-icon>
-        </button>
+    <div class="form-group col-12 pt-3">
+      <div class="row">
+        <span class="col-6">Adult 12+</span>
+        <span class="col-6 d-flex justify-content-between">
+          <button class="btn-icon" (click)="decreaseNumber('adults')">
+            <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
+          </button>
+          <input type="text" class="plain-text text-center" formControlName="adults" />
+          <button class="btn-icon" (click)="increaseNumber('adults')">
+            <mat-icon class="icon-display text-secondary">control_point</mat-icon>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="form-group col-12 ">
+      <div class="row">
+        <span class="col-6">Children 2-11</span>
+        <span class="col-6 d-flex justify-content-between">
+          <button class="btn-icon" (click)="decreaseNumber('children')">
+            <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
+          </button>
+          <input type="text" class="plain-text text-center" formControlName="children" />
+          <button class="btn-icon" (click)="increaseNumber('children')">
+            <mat-icon class="icon-display text-secondary">control_point</mat-icon>
+          </button>
+        </span>
       </div>
     </div>
     <div class="form-group col-12">
-      <div class="d-flex justify-content-between align-items-center"><span>Children</span>
-        <button class="btn-icon" (click)="decreaseNumber('children')">
-          <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
-        </button>
-        <input type="text" class="plain-text text-center" formControlName="children" />
-        <button class="btn-icon" (click)="increaseNumber('children')">
-          <mat-icon class="icon-display text-secondary">control_point</mat-icon>
-        </button>
-      </div>
-    </div>
-    <div class="form-group col-12">
-      <div class="d-flex justify-content-between align-items-center"><span>Infants</span>
-        <button class="btn-icon" (click)="decreaseNumber('infants')">
-          <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
-        </button>
-        <input type="text" class="plain-text text-center" formControlName="infants" />
-        <button class="btn-icon" (click)="increaseNumber('infants')">
-          <mat-icon class="icon-display text-secondary">control_point</mat-icon>
-        </button>
+      <div class="row">
+        <span class="col-6">Infants under 2</span>
+        <span class="col-6 d-flex justify-content-between">
+          <button class="btn-icon" (click)="decreaseNumber('infants')">
+            <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
+          </button>
+          <input type="text" class="plain-text text-center" formControlName="infants" />
+          <button class="btn-icon" (click)="increaseNumber('infants')">
+            <mat-icon class="icon-display text-secondary">control_point</mat-icon>
+          </button>
+        </span>
       </div>
     </div>
 
