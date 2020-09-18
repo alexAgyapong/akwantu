@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AppInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = 'GMzH64N2K8m5MD0PRiKE2ZQLHc6F';
-    // const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
     console.log({ token });
 
     if (req && req.url.endsWith('/oauth2/token')) {
@@ -20,12 +19,6 @@ export class AppInterceptor implements HttpInterceptor {
       });
     }
 
-    // req = req.clone({
-    //   setHeaders: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // });
     return next.handle(req);
   }
 }
