@@ -1,4 +1,4 @@
-<form [formGroup]="searchForm">
+<form [formGroup]="searchForm" autocomplete="off">
   <div class="custom-control custom-radio custom-control-inline py-3">
     <input type="radio" id="return" name="tripType" value="return" class="custom-control-input"
       formControlName="tripType">
@@ -17,23 +17,25 @@
   <div class="form-row">
     <div class="form-group col-sm-2">
       <label>From</label>
-      <input class="form-control" role="button" type="search" id="from" formControlName="from"
+      <input class="form-control" type="search" id="from" formControlName="from"
       [typeahead]="suggestions$"
-      [typeaheadAsync]="true">
+      [typeaheadAsync]="true"  typeaheadOptionField="name">
     </div>
     <div class="form-group col-sm-2">
       <label>To</label>
-      <input class="form-control" type="search" id="to" formControlName="from">
+      <input class="form-control" type="search" id="to" formControlName="to">
     </div>
     <div class="form-group col-sm-3">
       <div class="d-flex">
         <div class="form-group">
           <label>Depart</label>
-          <input class="form-control" type="search" id="from" formControlName="from">
+          <input class="form-control" type="search" id="from" formControlName="departureDate"  bsDatepicker
+         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue',adaptivePosition: true  }">
         </div>
         <div class="form-group">
           <label>Return</label>
-          <input class="form-control" type="search" id="from" formControlName="from">
+          <input class="form-control" type="search" id="from" formControlName="returnDate"  bsDatepicker
+          [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
         </div>
       </div>
     </div>

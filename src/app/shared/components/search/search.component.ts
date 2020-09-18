@@ -1,8 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { of } from 'rxjs';
-import { tap, switchMap } from "rxjs/operators";
+import { of, Observable, EMPTY, Observer } from 'rxjs';
+import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
+import { tap, switchMap, debounceTime } from 'rxjs/operators';
+import { LocationRequest } from '../../models/locations';
 import { LocationService } from './../../services/location.service';
 import { TokenService } from './../../services/token.service';
 
@@ -39,7 +41,6 @@ export class SearchComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private locationService: LocationService,
-    private tokenService: TokenService,
     private bsModalService: BsModalService) { }
 
   ngOnInit(): void {
@@ -53,10 +54,7 @@ export class SearchComponent implements OnInit {
 
     });
 
-    // this.tokenService.getAccessToken().subscribe(res => console.log({ res }));
-
-    this.suggestions$ = of(this.searchForm.get('from').value)
-    .pipe(switchMap((query: string) => this.locationService.getLocation(query)));
+    this.getSuggestions();
   }
 
 
@@ -72,6 +70,21 @@ export class SearchComponent implements OnInit {
       children: ['0'],
       infants: ['0']
     });
+  }
+
+  getSuggestions(): void {
+    this.suggestions$ = new Observable((input$: Observer<string>) => {
+      input$.next(this.searchForm.get('from').value);
+    })
+      .pipe(debounceTime(1000),
+        switchMap((query: string) => {
+          if (query) {
+            const req = { subType: 'CITY', keyword: query } as LocationRequest;
+            return this.locationService.getLocation(req);
+          }
+          else { return EMPTY; }
+        })
+      );
   }
 
   increaseNumber(type: string): void {
@@ -119,7 +132,6 @@ export class SearchComponent implements OnInit {
 
   showAutocomplete(): void {
     console.log('autocompelete');
-    this.suggestions$ = of(this.searchTerm)
-      .pipe(switchMap((query: string) => this.locationService.getLocation(query)));
+
   }
 }
