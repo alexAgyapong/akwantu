@@ -39,9 +39,9 @@ export class SearchComponent implements OnInit {
   }
 
   travelClasses: { name: string, value: string }[] = [
-    { name: 'Economy', value: 'Economy' },
-    { name: 'Premium Economy', value: 'Premium Economy' },
-    { name: 'Business', value: 'Business' },
+    { name: 'Economy', value: 'ECONOMY' },
+    { name: 'Premium Economy', value: 'PREMIUM_ECONOMY' },
+    { name: 'Business', value: 'BUSINESS' },
     { name: 'First', value: 'FIRST' }
   ];
 
@@ -72,7 +72,7 @@ export class SearchComponent implements OnInit {
       departureDate: [''],
       returnDate: [''],
       tripType: ['return'],
-      travelClass: ['Economy'],
+      travelClass: ['ECONOMY'],
       adults: ['1'],
       children: ['0'],
       infants: ['0']
