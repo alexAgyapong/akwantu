@@ -1,4 +1,4 @@
-<form [formGroup]="searchForm" autocomplete="off">
+<form [formGroup]="searchForm" (ngSubmit)="searchFlights()" autocomplete="off">
   <div class="custom-control custom-radio custom-control-inline py-3">
     <input type="radio" id="return" name="tripType" value="return" class="custom-control-input"
       formControlName="tripType">
@@ -18,12 +18,12 @@
     <div class="form-group col-sm-2">
       <label for="origin">From</label>
       <input class="form-control" type="search" id="origin" formControlName="origin" [typeahead]="suggestions$"
-        [typeaheadAsync]="true" typeaheadOptionField="name">
+        [typeaheadAsync]="true" typeaheadOptionField="name"  (typeaheadOnSelect)="onSelectOrigin($event)">
     </div>
     <div class="form-group col-sm-2">
       <label for="destination">To</label>
       <input class="form-control" type="search" id="destination" formControlName="destination"
-        [typeahead]="destinationSuggestions$" [typeaheadAsync]="true" typeaheadOptionField="name">
+        [typeahead]="destinationSuggestions$" [typeaheadAsync]="true" typeaheadOptionField="name"  (typeaheadOnSelect)="onSelectDestination($event)">
     </div>
     <div class="form-group col-sm-3">
       <div class="d-flex">
@@ -41,13 +41,13 @@
     </div>
     <div class="form-group col-sm-3 d-none d-sm-block">
       <label>Cabin class & travellers</label>
-      <button class="form-control btn btn-default" [popover]="travellersDesktop"
+      <button class="form-control btn btn-default" type="button" [popover]="travellersDesktop"
         popoverTitle="Template ref content inside" placement="bottom" containerClass="test"><span>
           {{classAndTravellers}}</span></button>
     </div>
     <div class="form-group col-sm-3 d-block d-sm-none">
       <label>Cabin class & travellers</label>
-      <button class="form-control btn btn-default" (click)="showTravellersModal(travellersMobile)">
+      <button class="form-control btn btn-default" type="button" (click)="showTravellersModal(travellersMobile)">
         <span> {{classAndTravellers}}</span>
       </button>
     </div>

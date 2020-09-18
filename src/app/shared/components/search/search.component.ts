@@ -1,9 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Observable, EMPTY, Observer } from 'rxjs';
 import { switchMap, debounceTime } from 'rxjs/operators';
-import { LocationRequest } from '../../models/locations';
+import { LocationData, LocationRequest } from '../../models/locations';
 import { LocationService } from './../../services/location.service';
 
 @Component({
@@ -12,12 +14,16 @@ import { LocationService } from './../../services/location.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  @Output() searchTerms = new EventEmitter<any>();
   searchForm: FormGroup;
   modalRef: BsModalRef;
   classAndTravellers: string;
   searchTerm: string;
   suggestions$: any;
   destinationSuggestions$: Observable<any>;
+  originCode: string;
+  origin: string;
+  destination: string;
 
   get adultsControl(): FormControl {
     return this.searchForm.get('adults') as FormControl;
@@ -40,7 +46,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private locationService: LocationService,
-    private bsModalService: BsModalService) { }
+    private bsModalService: BsModalService, private router: Router) { }
 
   ngOnInit(): void {
     this.setupForm();
@@ -149,4 +155,42 @@ export class SearchComponent implements OnInit {
     console.log('autocompelete');
 
   }
+
+  onSelectOrigin(event: TypeaheadMatch) {
+    console.log({ event });
+    const { item } = event;
+    let { iataCode } = item as LocationData;
+    this.origin = iataCode;
+  }
+
+  onSelectDestination(event: TypeaheadMatch) {
+    console.log({ event });
+    const { item } = event;
+    let { iataCode } = item as LocationData;
+    this.destination = iataCode;
+  }
+
+  searchFlights(): void {
+    let searchTerms = { ...this.searchForm.value } as SearchParam;
+    console.log('search flights before', searchTerms);
+    searchTerms.origin = this.origin;
+    searchTerms.destination = this.destination;
+    console.log({ searchTerms });
+
+    this.router.navigate(['/flights'], { queryParams: searchTerms });
+    // this.searchTerms.emit(searchTerms);
+
+  }
+}
+
+export interface SearchParam {
+  origin: string;
+  destination: string;
+  departureDate: string;
+  returnDate: string;
+  tripType: string;
+  travelClass: string;
+  adults: number;
+  children: number;
+  infants: number;
 }
