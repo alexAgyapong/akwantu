@@ -16,6 +16,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FlightListComponent } from './flights/flight-list/flight-list.component';
 
 
 
@@ -23,7 +24,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   declarations: [
     AppComponent,
     HomeComponent,
-    SearchComponent
+    SearchComponent,
+    FlightListComponent
   ],
   imports: [
     BrowserModule,

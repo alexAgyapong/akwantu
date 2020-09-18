@@ -5,18 +5,18 @@
   // background-color: red;
 }
 
-.full-screen{
+.full-screen {
   width: 100vw;
   height: 100vh;
   background-color: red;
 }
 
-.plain-text{
+.plain-text {
   width: 3rem;
   border: none;
 }
 
-.btn-icon{
+.btn-icon {
   outline: none;
   border: none;
   background-color: transparent;
@@ -25,3 +25,35 @@
 .icon-display {
   transform: scale(1.5);
 }
+
+// bs-datepicker-container {
+//   .bottom {
+//     color: red;
+//   }
+
+// }
+// .bs-datepicker-container .bs-datepicker-head {
+//   background-color: #fff;
+// }
+// .bs-datepicker-container .bs-datepicker-head * {
+//   color: rgb(95, 12, 12) !important;
+// }
+
+// ::ng-deep.bs-datepicker {
+//   border: 3px solid red;
+//  .departureDate{ height: 400px;
+//   left: 50px;
+//   width: 100%;}
+//   }
+
+// .bs-datepicker-container {
+//   border: 3px solid red;
+// }
+
+// @media screen and (min-width:768px){
+//   .bs-datepicker {
+//     height: inherit;
+//     left: inherit;
+//     width: inherit;
+//     }
+// }

@@ -7,6 +7,7 @@ import { Observable, EMPTY, Observer } from 'rxjs';
 import { switchMap, debounceTime } from 'rxjs/operators';
 import { LocationData, LocationRequest } from '../../models/locations';
 import { LocationService } from './../../services/location.service';
+import { SearchParam } from '../../models/search-param';
 
 @Component({
   selector: 'app-search',
@@ -183,14 +184,3 @@ export class SearchComponent implements OnInit {
   }
 }
 
-export interface SearchParam {
-  origin: string;
-  destination: string;
-  departureDate: string;
-  returnDate: string;
-  tripType: string;
-  travelClass: string;
-  adults: number;
-  children: number;
-  infants: number;
-}
