@@ -16,26 +16,26 @@
   </div>
   <div class="form-row">
     <div class="form-group col-sm-2">
-      <label>From</label>
-      <input class="form-control" type="search" id="from" formControlName="from"
-      [typeahead]="suggestions$"
-      [typeaheadAsync]="true"  typeaheadOptionField="name">
+      <label for="origin">From</label>
+      <input class="form-control" type="search" id="origin" formControlName="origin" [typeahead]="suggestions$"
+        [typeaheadAsync]="true" typeaheadOptionField="name">
     </div>
     <div class="form-group col-sm-2">
-      <label>To</label>
-      <input class="form-control" type="search" id="to" formControlName="to">
+      <label for="destination">To</label>
+      <input class="form-control" type="search" id="destination" formControlName="destination"
+        [typeahead]="destinationSuggestions$" [typeaheadAsync]="true" typeaheadOptionField="name">
     </div>
     <div class="form-group col-sm-3">
       <div class="d-flex">
         <div class="form-group">
           <label>Depart</label>
-          <input class="form-control" type="search" id="from" formControlName="departureDate"  bsDatepicker
-         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue',adaptivePosition: true  }">
+          <input class="form-control" type="search" id="departureDate" formControlName="departureDate" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
         </div>
         <div class="form-group">
           <label>Return</label>
-          <input class="form-control" type="search" id="from" formControlName="returnDate"  bsDatepicker
-          [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
+          <input class="form-control" type="search" id="returnDate" formControlName="returnDate" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
         </div>
       </div>
     </div>
@@ -56,12 +56,6 @@
       <button class="btn btn-primary btn-block" type="submit">Search</button>
     </div>
   </div>
-  <!-- <div class="form-row">
-    <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, eos?</span>
-    <span class="form-group col-sm-3 ml-auto">
-      <button class="btn btn-primary btn-block" type="submit">Search</button>
-    </span>
-  </div> -->
 </form>
 
 <ng-template class="test" #travellersDesktop>

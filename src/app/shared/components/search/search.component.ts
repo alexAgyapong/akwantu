@@ -1,12 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { of, Observable, EMPTY, Observer } from 'rxjs';
-import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
-import { tap, switchMap, debounceTime } from 'rxjs/operators';
+import { Observable, EMPTY, Observer } from 'rxjs';
+import { switchMap, debounceTime } from 'rxjs/operators';
 import { LocationRequest } from '../../models/locations';
 import { LocationService } from './../../services/location.service';
-import { TokenService } from './../../services/token.service';
 
 @Component({
   selector: 'app-search',
@@ -19,6 +17,7 @@ export class SearchComponent implements OnInit {
   classAndTravellers: string;
   searchTerm: string;
   suggestions$: any;
+  destinationSuggestions$: Observable<any>;
 
   get adultsControl(): FormControl {
     return this.searchForm.get('adults') as FormControl;
@@ -55,13 +54,14 @@ export class SearchComponent implements OnInit {
     });
 
     this.getSuggestions();
+    this.getDestinationSuggestions();
   }
 
 
   private setupForm(): void {
     this.searchForm = this.fb.group({
-      from: [''],
-      to: [''],
+      origin: [''],
+      destination: [''],
       departureDate: [''],
       returnDate: [''],
       tripType: ['return'],
@@ -74,7 +74,22 @@ export class SearchComponent implements OnInit {
 
   getSuggestions(): void {
     this.suggestions$ = new Observable((input$: Observer<string>) => {
-      input$.next(this.searchForm.get('from').value);
+      input$.next(this.searchForm.get('origin').value);
+    })
+      .pipe(debounceTime(1000),
+        switchMap((query: string) => {
+          if (query) {
+            const req = { subType: 'CITY', keyword: query } as LocationRequest;
+            return this.locationService.getLocation(req);
+          }
+          else { return EMPTY; }
+        })
+      );
+  }
+
+  getDestinationSuggestions(): void {
+    this.destinationSuggestions$ = new Observable((input$: Observer<string>) => {
+      input$.next(this.searchForm.get('destination').value);
     })
       .pipe(debounceTime(1000),
         switchMap((query: string) => {
