@@ -32,6 +32,7 @@ export interface Segment {
   departure: Departure;
   arrival: Arrival;
   carrierCode: string;
+  carrierName?: string;
   number: string;
   aircraft: Aircraft;
   operating: Operating;

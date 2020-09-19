@@ -11,7 +11,7 @@ export class FormatDurationPipe implements PipeTransform {
     const date = new Date(duration.asMilliseconds());
     const minutes = date.getMinutes();
     const minuteString = minutes < 10 ? minutes === 0 ? '' : `0${minutes}` : minutes;
-    const result = `${date.getHours()}h${minuteString}`;
+    const result = `${date.getHours()}h ${minuteString}m`;
 
     return result;
   }

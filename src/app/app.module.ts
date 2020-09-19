@@ -19,6 +19,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FlightListComponent } from './flights/flight-list/flight-list.component';
 import { FlightCardComponent } from './flights/flight-card/flight-card.component';
 import { TimePipe } from './shared/pipes/time.pipe';
+import { FormatDurationPipe } from './shared/pipes/format-duration.pipe';
 
 
 
@@ -29,7 +30,8 @@ import { TimePipe } from './shared/pipes/time.pipe';
     SearchComponent,
     FlightListComponent,
     FlightCardComponent,
-    TimePipe
+    TimePipe,
+    FormatDurationPipe
   ],
   imports: [
     BrowserModule,
