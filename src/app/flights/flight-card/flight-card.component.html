@@ -1,0 +1,12 @@
+<div class="card mb-3 mx-2">
+  <div class="card-body">
+    <div *ngFor="let item of flight.itineraries">
+      <span *ngFor="let segment of item?.segments">
+       <span class="d-flex mb-3">
+        <span> {{segment.departure?.at|time}} {{segment.departure.iataCode}} </span>
+         - <span>{{segment.arrival?.at|time}} {{segment.arrival.iataCode}}</span>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>

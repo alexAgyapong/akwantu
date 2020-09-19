@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { SearchParam } from './../../shared/models/search-param';
-import { RequestOption } from './../../shared/models/flight';
+import { RequestOption, FlightResponse, FlightOffer } from './../../shared/models/flight';
 import { FlightService } from './../../shared/services/flight.service';
 import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-flight-list',
@@ -13,7 +13,7 @@ import { of } from 'rxjs';
 })
 export class FlightListComponent implements OnInit {
   searchTerms: SearchParam;
-  offers$: any;
+  offers$ = new Observable<FlightOffer[]>();
 
 
   constructor(private route: ActivatedRoute, private flightService: FlightService) { }
@@ -42,9 +42,10 @@ export class FlightListComponent implements OnInit {
   }
 
   getTestData(): void {
-    const data = localStorage.getItem('offers');
-    const response = JSON.parse(data);
-    this.offers$ = of(response);
+    const res = localStorage.getItem('offers');
+    const response = JSON.parse(res) as FlightResponse;
+    const { data } = response;
+    this.offers$ = of(data);
   }
 
 }

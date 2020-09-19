@@ -1,2 +1,11 @@
-<p>flight-list works!</p>
-<!-- {{offers$|async|json}}.... -->
+
+<div class="container pt-4">
+  <div class="row">
+    <div class="col-sm-3">Filters</div>
+   <div class="col-sm-9">
+      <div *ngFor="let offer of offers$|async">
+        <app-flight-card [flight]="offer"></app-flight-card>
+      </div>
+   </div>
+  </div>
+</div>

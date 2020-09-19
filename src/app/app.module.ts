@@ -17,6 +17,8 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FlightListComponent } from './flights/flight-list/flight-list.component';
+import { FlightCardComponent } from './flights/flight-card/flight-card.component';
+import { TimePipe } from './shared/pipes/time.pipe';
 
 
 
@@ -25,7 +27,9 @@ import { FlightListComponent } from './flights/flight-list/flight-list.component
     AppComponent,
     HomeComponent,
     SearchComponent,
-    FlightListComponent
+    FlightListComponent,
+    FlightCardComponent,
+    TimePipe
   ],
   imports: [
     BrowserModule,
