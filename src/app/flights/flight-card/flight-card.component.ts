@@ -20,6 +20,7 @@ export class FlightCardComponent implements OnInit, OnChanges {
     if (this.flight) {
       console.log('flight offer', this.flight);
       this.setCarrierName(this.flight);
+      this.setValidatingAirlineNames(this.flight);
     }
   }
   private getDictionaries(): void {
@@ -33,14 +34,25 @@ export class FlightCardComponent implements OnInit, OnChanges {
     this.getDictionaries();
     flight.itineraries.forEach(i => {
       i.segments.forEach(s => {
-
         const carrier = this.dictionaries?.carriers[s.carrierCode];
         s.carrierName = carrier;
-        console.log({ carrier });
+        // console.log({ carrier });
       });
     });
-    console.log('keys', Object.keys(this.dictionaries?.carriers));
-    console.log('test', this.dictionaries?.carriers);
+    // console.log('keys', Object.keys(this.dictionaries?.carriers));
+    // console.log('test', this.dictionaries?.carriers);
+
+  }
+  setValidatingAirlineNames(flight: FlightOffer): void {
+    const airlines = [];
+    this.getDictionaries();
+    flight.validatingAirlineCodes.forEach(i => {
+      const name = this.dictionaries?.carriers[i];
+      if (name) { airlines.push(name); }
+      flight.validatingAirlineNames = airlines;
+      console.log({ airline: airlines });
+
+    });
 
   }
 
