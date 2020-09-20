@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { Dictionaries, FlightOffer, FlightResponse } from 'src/app/shared/models/flight';
 import * as moment from 'moment';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-flight-card',
@@ -10,11 +11,15 @@ import * as moment from 'moment';
 export class FlightCardComponent implements OnInit, OnChanges {
   @Input() flight: FlightOffer;
   dictionaries: Dictionaries;
-  constructor() { }
+  modalRef: BsModalRef;
+  constructor(private bsModalService: BsModalService) { }
 
   ngOnInit(): void {
   }
 
+  showDetailsModal(template: TemplateRef<any>): void {
+    this.modalRef = this.bsModalService.show(template,  Object.assign({}, { class: 'modal-lg' }));
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.flight) {
