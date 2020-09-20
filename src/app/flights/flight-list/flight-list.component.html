@@ -1,12 +1,30 @@
-
 <div class="container pt-4">
+  <div *ngIf="isMinTablet" class="row">
+    <app-search></app-search>
+  </div>
+  <div *ngIf="!isMinTablet" class="row">
+    <button class="btn btn-link" (click)="showSearchModal(search)"><span>{{searchTerms?.destination}}
+        Destination</span></button>
+  </div>
   <div class="row">
     <div class="col-sm-3">Filters</div>
-   <div class="col-sm-9 position-relative">
+    <div class="col-sm-9 position-relative">
       <div *ngFor="let offer of offers$|async">
         <app-flight-card [flight]="offer"></app-flight-card>
       </div>
       <!-- <div class="scroll-to-top"><button class="btn btn-primary" (click)="scrollToTop()"><mat-icon>face</mat-icon></button></div> -->
-   </div>
+    </div>
   </div>
 </div>
+
+<ng-template #search>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-search [isMobile]="true" (searchTerms)="getSearchTermsForMobile($event)"></app-search>
+  </div>
+</ng-template>

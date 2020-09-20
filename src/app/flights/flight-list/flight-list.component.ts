@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { SearchParam } from './../../shared/models/search-param';
 import { RequestOption, FlightResponse, FlightOffer } from './../../shared/models/flight';
 import { FlightService } from './../../shared/services/flight.service';
 import { map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BreakpointService } from './../../shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-flight-list',
@@ -14,11 +16,13 @@ import { of, Observable } from 'rxjs';
 export class FlightListComponent implements OnInit {
   searchTerms: SearchParam;
   offers$ = new Observable<FlightOffer[]>();
-
-
-  constructor(private route: ActivatedRoute, private flightService: FlightService) { }
+  modalRef: BsModalRef;
+  isMinTablet = false;
+  constructor(private route: ActivatedRoute, private bsModalService: BsModalService,
+    private breakpointService: BreakpointService, private flightService: FlightService) { }
 
   ngOnInit(): void {
+    this.isMinTablet = this.breakpointService.isTabletBreakPoint();
     this.route.queryParams.subscribe((params) => {
       this.searchTerms = { ...params } as SearchParam;
       let req = {
@@ -33,7 +37,6 @@ export class FlightListComponent implements OnInit {
       } as RequestOption;
       // this.getFlightOffers(req);
       this.getTestData();
-      console.log(this.searchTerms, 'param map');
     });
   }
 
@@ -46,6 +49,13 @@ export class FlightListComponent implements OnInit {
     const response = JSON.parse(res) as FlightResponse;
     const { data } = response;
     this.offers$ = of(data);
+  }
+
+  getSearchTermsForMobile(searchParams: SearchParam): void {
+    if (searchParams) { this.modalRef.hide(); }
+  }
+  showSearchModal(template: TemplateRef<any>): void {
+    this.modalRef = this.bsModalService.show(template, Object.assign({}, { class: 'modal-sm' }));
   }
 
   scrollToTop(): void {

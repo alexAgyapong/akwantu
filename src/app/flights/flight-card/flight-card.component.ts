@@ -18,12 +18,12 @@ export class FlightCardComponent implements OnInit, OnChanges {
   }
 
   showDetailsModal(template: TemplateRef<any>): void {
-    this.modalRef = this.bsModalService.show(template,  Object.assign({}, { class: 'modal-lg' }));
+    this.modalRef = this.bsModalService.show(template, Object.assign({}, { class: 'modal-lg' }));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.flight) {
-      console.log('flight offer', this.flight);
+      // console.log('flight offer', this.flight);
       this.setCarrierName(this.flight);
       this.setValidatingAirlineNames(this.flight);
       this.setNumberOfStops(this.flight);
@@ -54,7 +54,7 @@ export class FlightCardComponent implements OnInit, OnChanges {
       const name = this.dictionaries?.carriers[i];
       if (name) { airlines.push(name); }
       flight.validatingAirlineNames = airlines;
-      console.log({ airline: airlines });
+      // console.log({ airline: airlines });
     });
   }
 

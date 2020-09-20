@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -15,6 +15,7 @@ import { SearchParam } from '../../models/search-param';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  @Input() isMobile = false;
   @Output() searchTerms = new EventEmitter<any>();
   searchForm: FormGroup;
   modalRef: BsModalRef;
@@ -179,7 +180,9 @@ export class SearchComponent implements OnInit {
     console.log({ searchTerms });
 
     this.router.navigate(['/flights'], { queryParams: searchTerms });
-    // this.searchTerms.emit(searchTerms);
+    if (this.isMobile) {
+      this.searchTerms.emit(searchTerms);
+    }
 
   }
 }
