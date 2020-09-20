@@ -21,6 +21,7 @@ export class FlightCardComponent implements OnInit, OnChanges {
       console.log('flight offer', this.flight);
       this.setCarrierName(this.flight);
       this.setValidatingAirlineNames(this.flight);
+      this.setNumberOfStops(this.flight);
     }
   }
   private getDictionaries(): void {
@@ -36,13 +37,11 @@ export class FlightCardComponent implements OnInit, OnChanges {
       i.segments.forEach(s => {
         const carrier = this.dictionaries?.carriers[s.carrierCode];
         s.carrierName = carrier;
-        // console.log({ carrier });
       });
     });
-    // console.log('keys', Object.keys(this.dictionaries?.carriers));
-    // console.log('test', this.dictionaries?.carriers);
 
   }
+
   setValidatingAirlineNames(flight: FlightOffer): void {
     const airlines = [];
     this.getDictionaries();
@@ -51,9 +50,26 @@ export class FlightCardComponent implements OnInit, OnChanges {
       if (name) { airlines.push(name); }
       flight.validatingAirlineNames = airlines;
       console.log({ airline: airlines });
-
     });
-
   }
 
+  setNumberOfStops(flight: FlightOffer): void {
+
+    const outboundTotal = flight?.itineraries[0]?.segments?.length - 1;
+    const inboundTotal = flight?.itineraries[flight?.itineraries?.length - 1]?.segments?.length - 1;
+    const outboundChanges = outboundTotal > 0 ? outboundTotal === 1 ? `${outboundTotal} stop` : `${outboundTotal} stops` : 'NonStop';
+    const inboundChanges = inboundTotal > 0 ? inboundTotal === 1 ? `${inboundTotal} stop` : `${inboundTotal} stops` : 'NonStop';
+    flight.outboundChanges = outboundChanges;
+    flight.inboundChanges = inboundChanges;
+
+    // flight.itineraries.forEach(i => {
+    //   // let outBoundStops = outbounds.reduce((a, b) => a + b, 0);
+    //   // let outbounds = i.segments.filter(x => x.departure.iataCode).map(x => x.numberOfStops);
+    //   // let inbounds = i.segments.filter(x => x.arrival.iataCode).map(x => x.numberOfStops);
+    //   // let outBoundStops = outbounds.reduce((a, b) => a + b, 0);
+    //   const outboundChanges = i.segments.filter(x => x.departure.iataCode).length - 1;
+    //   const inboundChanges = i.segments.filter(x => x.arrival.iataCode).length - 1;
+    //   console.log({ outboundChanges }, { inboundChanges });
+    // })
+  }
 }

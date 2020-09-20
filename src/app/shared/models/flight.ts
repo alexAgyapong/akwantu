@@ -107,6 +107,8 @@ export interface FlightOffer {
   validatingAirlineCodes: string[];
   validatingAirlineNames?: string[];
   travelerPricings: TravelerPricing[];
+  outboundChanges?: string;
+  inboundChanges?: string;
 }
 
 export interface DMK {
