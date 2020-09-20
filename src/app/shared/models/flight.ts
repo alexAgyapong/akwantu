@@ -105,6 +105,7 @@ export interface FlightOffer {
   price: Price;
   pricingOptions: PricingOptions;
   validatingAirlineCodes: string[];
+  validatingAirlineNames?: string[];
   travelerPricings: TravelerPricing[];
 }
 
