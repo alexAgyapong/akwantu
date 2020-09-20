@@ -48,4 +48,8 @@ export class FlightListComponent implements OnInit {
     this.offers$ = of(data);
   }
 
+  scrollToTop(): void {
+    window.scrollTo(0, 0);
+  }
+
 }
