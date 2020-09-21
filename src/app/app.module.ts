@@ -16,10 +16,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 import { FlightListComponent } from './flights/flight-list/flight-list.component';
 import { FlightCardComponent } from './flights/flight-card/flight-card.component';
 import { TimePipe } from './shared/pipes/time.pipe';
 import { FormatDurationPipe } from './shared/pipes/format-duration.pipe';
+import { FilterComponent } from './shared/components/filter/filter.component';
 
 
 
@@ -31,7 +34,8 @@ import { FormatDurationPipe } from './shared/pipes/format-duration.pipe';
     FlightListComponent,
     FlightCardComponent,
     TimePipe,
-    FormatDurationPipe
+    FormatDurationPipe,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,9 @@ import { FormatDurationPipe } from './shared/pipes/format-duration.pipe';
     ModalModule.forRoot(),
     PopoverModule.forRoot(),
     TypeaheadModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    CollapseModule.forRoot()
+
 
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true }],

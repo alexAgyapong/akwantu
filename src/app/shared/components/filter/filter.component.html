@@ -1,0 +1,63 @@
+<div>
+  <form [formGroup]="filterForm">
+
+    <button type="button" class="btn" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseStop">
+      <span class="d-flex align-items-center">
+        Stops
+        <ng-container *ngIf="!isCollapsed">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="isCollapsed">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </ng-container>
+      </span>
+    </button>
+    <hr>
+    <div id="collapseStop" [collapse]="isCollapsed" [isAnimated]="true">
+      <!-- <label class="custom-control custom-checkbox">
+     <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
+     <label for="oneStop" class="custom-control-label">1 stop</label>
+   </label> -->
+
+      <label class="custom-control custom-checkbox d-flex align-items-center ">
+        <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
+        <span class="custom-control-label pt-1" for="oneStop">1 stop</span>
+      </label>
+
+      <div class="custom-control custom-checkbox pb-3">
+        <input type="checkbox" class="custom-control-input" id="customCheck1">
+        <label class="custom-control-label pt-1" for="customCheck1">2 stops</label>
+      </div>
+    </div>
+    <button type="button" class="btn" (click)="isDepTimesCollapsed = !isDepTimesCollapsed" [attr.aria-expanded]="!isDepTimesCollapsed"
+      aria-controls="collapseStop">
+      <span class="d-flex align-items-center">
+        Departure times
+        <ng-container *ngIf="!isDepTimesCollapsed">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="isDepTimesCollapsed">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </ng-container>
+      </span>
+    </button>
+    <hr>
+    <div id="collapseStop"  [collapse]="isDepTimesCollapsed" [isAnimated]="true">
+      <!-- <label class="custom-control custom-checkbox">
+     <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
+     <label for="oneStop" class="custom-control-label">1 stop</label>
+   </label> -->
+
+      <label class="custom-control custom-checkbox d-flex align-items-center ">
+        <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
+        <span class="custom-control-label pt-1" for="oneStop">1 stop</span>
+      </label>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="customCheck1">
+        <label class="custom-control-label pt-1" for="customCheck1">2 stops</label>
+      </div>
+    </div>
+  </form>
+</div>

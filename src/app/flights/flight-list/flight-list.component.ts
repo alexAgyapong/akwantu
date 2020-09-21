@@ -54,6 +54,7 @@ export class FlightListComponent implements OnInit {
   getSearchTermsForMobile(searchParams: SearchParam): void {
     if (searchParams) { this.modalRef.hide(); }
   }
+  
   showSearchModal(template: TemplateRef<any>): void {
     this.modalRef = this.bsModalService.show(template, Object.assign({}, { class: 'modal-sm' }));
   }

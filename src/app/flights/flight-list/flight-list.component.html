@@ -7,7 +7,10 @@
         Destination</span></button>
   </div>
   <div class="row">
-    <div class="col-sm-3">Filters</div>
+    <div class="col-sm-3">
+      <h3 class="mb-3">Filters</h3>
+      <app-filter></app-filter>
+    </div>
     <div class="col-sm-9 position-relative">
       <div *ngFor="let offer of offers$|async">
         <app-flight-card [flight]="offer"></app-flight-card>
