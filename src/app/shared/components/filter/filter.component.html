@@ -44,10 +44,8 @@
     </button>
     <hr>
     <div id="collapseStop" [collapse]="isDepTimesCollapsed" [isAnimated]="true">
-      <label class="custom-control custom-checkbox d-flex align-items-center ">
-        <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
-        <span class="custom-control-label pt-1" for="oneStop">1 stop</span>
-      </label>
+      <!-- <input class="form-control" type="range" value="00:00" id="departureTime" min="00:00" max="23:59" formControlName="departureTime"/> -->
+      <ng5-slider [options]="options" [highValue]="100" formControlName="departureTime"></ng5-slider>
     </div>
 
     <button type="button" class="btn" (click)="isAirlinesCollapsed = !isAirlinesCollapsed"

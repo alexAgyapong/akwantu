@@ -17,6 +17,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { Ng5SliderModule } from 'ng5-slider';
 
 import { FlightListComponent } from './flights/flight-list/flight-list.component';
 import { FlightCardComponent } from './flights/flight-card/flight-card.component';
@@ -48,7 +49,8 @@ import { FilterComponent } from './shared/components/filter/filter.component';
     PopoverModule.forRoot(),
     TypeaheadModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    Ng5SliderModule
 
 
   ],
