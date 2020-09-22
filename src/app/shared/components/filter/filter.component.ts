@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionaries, FlightOffer, FlightResponse } from 'src/app/shared/models/flight';
 import lodash from 'lodash';
-import { Options,LabelType } from 'ng5-slider';
+import { Options, LabelType } from 'ng5-slider';
 
 @Component({
   selector: 'app-filter',
@@ -19,22 +19,33 @@ export class FilterComponent implements OnInit, OnChanges {
   airlines: Airline[] = [];
   airlineCodes: string[] = [];
   airlinesWithPrices: { code: string, price: number }[] = [];
+
+  maxValue: number = 2359;
   options: Options = {
     floor: 0,
-    ceil: 100,
-    step: 5,
+    ceil: 2359,
+    step: 100,
+    translate: (value: number): string => {
+      if (value === 0) {
+        return this.formatTime(`000${value}`);
+      }
+      if (value < 1000) {
+        return this.formatTime(`0${value}`);
+      }
+      return this.formatTime(value.toString());
+    },
     showSelectionBar: true,
     getPointerColor: (value: number): string => {
-        // if (value <= 3) {
-        //     return 'red';
-        // }
-        // if (value <= 6) {
-        //     return 'orange';
-        // }
-        // if (value <= 9) {
-        //     return 'yellow';
-        // }
-        return '#808080';
+      // if (value <= 3) {
+      //     return 'red';
+      // }
+      // if (value <= 6) {
+      //     return 'orange';
+      // }
+      // if (value <= 9) {
+      //     return 'yellow';
+      // }
+      return '#808080';
     },
     getSelectionBarColor: (value: number): string => {
       // if (value <= 3) {
@@ -50,8 +61,8 @@ export class FilterComponent implements OnInit, OnChanges {
     }
   };
 
-  dateRange: Date[] = this.createDateRange();
-  value: number = this.dateRange[0].getTime();
+  // dateRange: Date[] = this.createDateRange();
+  // value: number = this.dateRange[0].getTime();
   // options: Options = {
   //   stepsArray: this.dateRange.map((date: Date) => {
   //     return { value: date.getTime() };
@@ -61,6 +72,12 @@ export class FilterComponent implements OnInit, OnChanges {
   //   }
   // };
 
+  formatTime(value: string): string {
+    const first = value.substring(0, 2);
+    const last = value.substring(2);
+    return `${first}:${last}`;
+  }
+
   createDateRange(): Date[] {
     const dates: Date[] = [];
     for (let i: number = 1; i <= 31; i++) {
@@ -69,6 +86,7 @@ export class FilterComponent implements OnInit, OnChanges {
     return dates;
   }
   constructor(private fb: FormBuilder) { }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.setAirlinesFares();
   }
