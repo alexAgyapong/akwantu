@@ -13,78 +13,29 @@ export class FilterComponent implements OnInit, OnChanges {
   @Input() flights: FlightOffer[] = [];
   filterForm: FormGroup;
   isCollapsed = true;
-  isDepTimesCollapsed = true;
+  isMaxPriceCollapsed = true;
   isAirlinesCollapsed = true;
   dictionaries: Dictionaries;
   airlines: Airline[] = [];
   airlineCodes: string[] = [];
   airlinesWithPrices: { code: string, price: number }[] = [];
 
-  maxValue: number = 2359;
   options: Options = {
-    floor: 0,
-    ceil: 2359,
+    floor: 200,
+    ceil: 5000,
     step: 100,
     translate: (value: number): string => {
-      if (value === 0) {
-        return this.formatTime(`000${value}`);
-      }
-      if (value < 1000) {
-        return this.formatTime(`0${value}`);
-      }
-      return this.formatTime(value.toString());
+      return `£${value}`;
     },
     showSelectionBar: true,
     getPointerColor: (value: number): string => {
-      // if (value <= 3) {
-      //     return 'red';
-      // }
-      // if (value <= 6) {
-      //     return 'orange';
-      // }
-      // if (value <= 9) {
-      //     return 'yellow';
-      // }
       return '#808080';
     },
     getSelectionBarColor: (value: number): string => {
-      // if (value <= 3) {
-      //     return 'red';
-      // }
-      // if (value <= 6) {
-      //     return 'orange';
-      // }
-      // if (value <= 9) {
-      //     return 'yellow';
-      // }
       return '#808080';
     }
   };
 
-  // dateRange: Date[] = this.createDateRange();
-  // value: number = this.dateRange[0].getTime();
-  // options: Options = {
-  //   stepsArray: this.dateRange.map((date: Date) => {
-  //     return { value: date.getTime() };
-  //   }),
-  //   translate: (value: number, label: LabelType): string => {
-  //     return new Date(value).toDateString();
-  //   }
-  // };
-
-  formatTime(value: string): string {
-    const first = value.substring(0, 2);
-    const last = value.substring(2);
-    return `${first}:${last}`;
-  }
-
-  createDateRange(): Date[] {
-    const dates: Date[] = [];
-    for (let i: number = 1; i <= 31; i++) {
-      dates.push(new Date(2018, 5, i));
-    }
-    return dates;
-  }
   constructor(private fb: FormBuilder) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -95,7 +46,7 @@ export class FilterComponent implements OnInit, OnChanges {
     this.setupForm();
     this.getAirlines();
     this.setAirlinesFares();
-    // this.formChanges();
+    this.formChanges();
   }
 
   formChanges() {
@@ -108,13 +59,9 @@ export class FilterComponent implements OnInit, OnChanges {
   private setupForm(): void {
     this.filterForm = this.fb.group({
       stops: [''],
-      departureTime: [''],
-      returnTime: [''],
-      duration: [''],
       airlines: [''],
-      airports: [''],
-      price: [''],
-      cabinBag: [''],
+      maxPrice: [''],
+      cabin: [''],
       checkedBag: [''],
       paymentMethod: ['']
     });

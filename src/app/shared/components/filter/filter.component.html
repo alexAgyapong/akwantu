@@ -1,6 +1,5 @@
 <div>
   <form [formGroup]="filterForm">
-
     <button type="button" class="btn" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
       aria-controls="collapseStop">
       <span class="d-flex align-items-center">
@@ -30,26 +29,6 @@
         <label class="custom-control-label pt-1" for="customCheck1">2 stops</label>
       </div>
     </div>
-    <button type="button" class="btn" (click)="isDepTimesCollapsed = !isDepTimesCollapsed"
-      [attr.aria-expanded]="!isDepTimesCollapsed" aria-controls="collapseStop">
-      <span class="d-flex align-items-center">
-        Departure times
-        <ng-container *ngIf="!isDepTimesCollapsed">
-          <mat-icon>keyboard_arrow_up</mat-icon>
-        </ng-container>
-        <ng-container *ngIf="isDepTimesCollapsed">
-          <mat-icon>keyboard_arrow_down</mat-icon>
-        </ng-container>
-      </span>
-    </button>
-    <hr>
-    <div id="collapseStop" [collapse]="isDepTimesCollapsed" [isAnimated]="true">
-      <!-- <input class="form-control" type="range" value="00:00" id="departureTime" min="00:00" max="23:59" formControlName="departureTime"/> -->
-      <div class="custom-slider">
-        <ng5-slider [options]="options" [highValue]="maxValue" formControlName="departureTime"></ng5-slider>
-      </div>
-    </div>
-
     <button type="button" class="btn" (click)="isAirlinesCollapsed = !isAirlinesCollapsed"
       [attr.aria-expanded]="!isAirlinesCollapsed" aria-controls="collapseStop">
       <span class="d-flex align-items-center">
@@ -74,6 +53,25 @@
           </label>
           <span *ngIf="airline?.price">{{airline?.price|currency}}</span>
         </span>
+      </div>
+    </div>
+    <button type="button" class="btn" (click)="isMaxPriceCollapsed = !isMaxPriceCollapsed"
+      [attr.aria-expanded]="!isMaxPriceCollapsed" aria-controls="collapseStop">
+      <span class="d-flex align-items-center">
+        Price
+        <ng-container *ngIf="!isMaxPriceCollapsed">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="isMaxPriceCollapsed">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </ng-container>
+      </span>
+    </button>
+    <hr>
+    <div id="collapseStop" [collapse]="isMaxPriceCollapsed" [isAnimated]="true">
+      <!-- <input class="form-control" type="range" value="00:00" id="departureTime" min="00:00" max="23:59" formControlName="departureTime"/> -->
+      <div class="custom-slider">
+        <ng5-slider [options]="options" formControlName="maxPrice"></ng5-slider>
       </div>
     </div>
   </form>
