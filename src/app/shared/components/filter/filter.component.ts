@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionaries, FlightOffer, FlightResponse } from 'src/app/shared/models/flight';
-
+import lodash from 'lodash';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -14,24 +14,25 @@ export class FilterComponent implements OnInit, OnChanges {
   isDepTimesCollapsed = true;
   isAirlinesCollapsed = true;
   dictionaries: Dictionaries;
-  airlines: Map<string, any>;
+  airlines: Airline[] = [];
   airlineCodes: string[] = [];
+  airlinesWithPrices: { code: string, price: number }[] = [];
 
   constructor(private fb: FormBuilder) { }
   ngOnChanges(changes: SimpleChanges): void {
-    //  this.setAirlinesFares()
+    this.setAirlinesFares();
   }
 
   ngOnInit(): void {
     this.setupForm();
     this.getAirlines();
-    this.setAirlinesFares()
+    this.setAirlinesFares();
     // this.formChanges();
   }
 
   formChanges() {
     this.filterForm.valueChanges.subscribe(input => console.log({ input })
-    )
+    );
   }
 
 
@@ -63,39 +64,54 @@ export class FilterComponent implements OnInit, OnChanges {
     const inboundTotal = flights[0]?.itineraries[flights[0]?.itineraries?.length - 1]?.segments?.length - 1;
   }
 
-  getAirlines() {
-
+  getAirlines(): void {
     this.getDictionaries();
-    let airlinesMap = new Map(Object.entries(this.dictionaries.carriers));
-    this.airlines = airlinesMap;
-    // console.log({ airlinesMap });
-
+    const keys = Object.keys(this.dictionaries.carriers);
+    keys.forEach(key => {
+      const airline = { code: key, name: this.dictionaries.carriers[key], isChecked: false, price: 0 };
+      if (airline) { this.airlines.push(airline); }
+    });
   }
 
-  setAirlinesFares() {
-    // console.log('airlines', this.flights);
-    let output: { code: string, price: number }[] = [];
-    let validCodes = this.flights.filter(x => x).map(v => v.validatingAirlineCodes);
-    this.flights.forEach(flight => {
+  setAirlinesFares(): void {
+    const output: { code: string, price: number }[] = [];
+    this.flights?.forEach(flight => {
       const { validatingAirlineCodes, price } = flight;
-      let res = { code: validatingAirlineCodes[0], price: +price.grandTotal }
+      const res = { code: validatingAirlineCodes[0], price: +price.grandTotal };
       output.push(res);
-      // if(!output.some(x=>x.code===res.code)) {
-      // }
-    })
-   let test  = output.filter(x=>x.code).map(p=>p.price);
-   console.log({test});
+    });
 
-    // let test = Math.min.apply(null, output.filter(x=>x).map(p=>+p.price))
-    // console.log({output}, {test});
+    const groupedAirlines = lodash.groupBy(output, 'code');
+    const airlineCodes = Object.keys(groupedAirlines);
 
+    airlineCodes.forEach(code => {
+      const airline = lodash.min(groupedAirlines[code]);
+      this.airlinesWithPrices.push(airline);
+    });
+
+    this.getAirlinePrice(this.airlines, this.airlinesWithPrices);
+    console.log('with price', this.airlinesWithPrices, 'original', this.airlines);
   }
 
   getAirlineCodes(key: string): void {
-
     if (this.airlineCodes.some(x => x === key)) {
       this.airlineCodes.splice(this.airlineCodes.findIndex(x => x === key), 1);
     } else { this.airlineCodes?.push(key); }
-    // console.log({ key }, 'all keys', this.airlineCodes);
   }
+
+  getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
+    airlines?.forEach(x => {
+      prices?.forEach(p => {
+        if (x.code === p.code) { x.price = p.price; }
+      });
+    });
+  }
+}
+
+
+interface Airline {
+  code: string;
+  name: any;
+  isChecked: boolean;
+  price: number;
 }
