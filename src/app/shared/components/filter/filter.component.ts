@@ -15,6 +15,7 @@ export class FilterComponent implements OnInit, OnChanges {
   isCollapsed = true;
   isMaxPriceCollapsed = true;
   isAirlinesCollapsed = true;
+  isCurrencyCollapsed = true;
   dictionaries: Dictionaries;
   airlines: Airline[] = [];
   airlineCodes: string[] = [];
@@ -36,6 +37,7 @@ export class FilterComponent implements OnInit, OnChanges {
     }
   };
 
+  currencies = [{ name: 'Pound Sterling', value: 'GBP' }, { name: 'Euro', value: 'EUR' }];
   constructor(private fb: FormBuilder) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,6 +63,7 @@ export class FilterComponent implements OnInit, OnChanges {
       stops: [''],
       airlines: [''],
       maxPrice: [''],
+      currency: ['EUR'],
       cabin: [''],
       checkedBag: [''],
       paymentMethod: ['']

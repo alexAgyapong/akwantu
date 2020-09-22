@@ -12,23 +12,13 @@
         </ng-container>
       </span>
     </button>
-    <hr>
-    <div id="collapseStop" [collapse]="isCollapsed" [isAnimated]="true">
-      <!-- <label class="custom-control custom-checkbox">
-     <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
-     <label for="oneStop" class="custom-control-label">1 stop</label>
-   </label> -->
-
+    <div class="pt-3" id="collapseStop" [collapse]="isCollapsed" [isAnimated]="true">
       <label class="custom-control custom-checkbox d-flex align-items-center ">
         <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
-        <span class="custom-control-label pt-1" for="oneStop">1 stop</span>
+        <span class="custom-control-label pt-1" for="oneStop">Direct</span>
       </label>
-
-      <div class="custom-control custom-checkbox pb-3">
-        <input type="checkbox" class="custom-control-input" id="customCheck1">
-        <label class="custom-control-label pt-1" for="customCheck1">2 stops</label>
-      </div>
     </div>
+    <hr>
     <button type="button" class="btn" (click)="isAirlinesCollapsed = !isAirlinesCollapsed"
       [attr.aria-expanded]="!isAirlinesCollapsed" aria-controls="collapseStop">
       <span class="d-flex align-items-center">
@@ -41,8 +31,7 @@
         </ng-container>
       </span>
     </button>
-    <hr>
-    <div id="collapseStop" [collapse]="isAirlinesCollapsed" [isAnimated]="true">
+    <div class="pt-3" id="collapseStop" [collapse]="isAirlinesCollapsed" [isAnimated]="true">
       <span class="mt-3"></span>
       <div *ngFor="let airline of airlines">
         <span class="d-flex justify-content-between">
@@ -55,6 +44,7 @@
         </span>
       </div>
     </div>
+    <hr>
     <button type="button" class="btn" (click)="isMaxPriceCollapsed = !isMaxPriceCollapsed"
       [attr.aria-expanded]="!isMaxPriceCollapsed" aria-controls="collapseStop">
       <span class="d-flex align-items-center">
@@ -67,12 +57,29 @@
         </ng-container>
       </span>
     </button>
-    <hr>
-    <div id="collapseStop" [collapse]="isMaxPriceCollapsed" [isAnimated]="true">
-      <!-- <input class="form-control" type="range" value="00:00" id="departureTime" min="00:00" max="23:59" formControlName="departureTime"/> -->
+    <div class="pt-3" id="collapsePrice" [collapse]="isMaxPriceCollapsed" [isAnimated]="true">
       <div class="custom-slider">
         <ng5-slider [options]="options" formControlName="maxPrice"></ng5-slider>
       </div>
+    </div>
+    <hr>
+    <button type="button" class="btn" (click)="isCurrencyCollapsed = !isCurrencyCollapsed"
+      [attr.aria-expanded]="!isCurrencyCollapsed" aria-controls="collapseCurrency">
+      <span class="d-flex align-items-center">
+        Currency
+        <ng-container *ngIf="!isCurrencyCollapsed">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="isCurrencyCollapsed">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </ng-container>
+      </span>
+    </button>
+    <div class="mb-3 pt-3" id="collapseCurrency" [collapse]="isCurrencyCollapsed" [isAnimated]="true">
+      <select class="custom-select" formControlName="currency">
+        <option selected value="0">Anytime</option>
+        <option *ngFor="let currency of currencies" [value]="currency?.value">{{currency?.name}}</option>
+      </select>
     </div>
   </form>
 </div>
