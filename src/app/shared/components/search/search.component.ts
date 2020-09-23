@@ -9,6 +9,8 @@ import { LocationData, LocationRequest } from '../../models/locations';
 import { LocationService } from './../../services/location.service';
 import { SearchParam } from '../../models/search-param';
 
+import moment from 'moment';
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -27,6 +29,8 @@ export class SearchComponent implements OnInit {
   origin: string;
   destination: string;
   allParams: SearchParam;
+
+  returnDate = moment(new Date()).add(7, 'days').toDate();
 
   get adultsControl(): FormControl {
     return this.searchForm.get('adults') as FormControl;
@@ -52,14 +56,13 @@ export class SearchComponent implements OnInit {
     private bsModalService: BsModalService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    console.log('moment date', this.returnDate)
     this.setupForm();
 
     this.route.queryParams.subscribe(params => {
       this.allParams = { ...params } as unknown as SearchParam;
-      // let origin = params.get('origin');
-      // this.searchForm.get('origin').setValue(origin);
       console.log('form BEFORE', this.searchForm.value);
-      if (this.allParams) {
+      if (this.allParams.departureDate) {
         this.patchForm(this.allParams);
       }
       console.log({ params }, 'all params', this.allParams);
@@ -76,26 +79,25 @@ export class SearchComponent implements OnInit {
 
     });
 
+    // Typeahead suggestions for origin and destination
     this.getSuggestions();
     this.getDestinationSuggestions();
   }
 
   patchForm(param: SearchParam): void {
-    // if (this.searchForm) { this.searchForm.reset(); }
-    let {origin} = param;
- console.log(param,'in patch mehtod', {origin});
-
-    this.searchForm.patchValue({
-      origin: param?.origin,
-      destination: param?.destination,
-      departureDate: new Date(param?.departureDate),
-      returnDate: new Date(param?.returnDate),
-      tripType: param?.tripType,
-      travelClass: param?.travelClass,
-      adults: param?.adults,
-      children: param?.children,
-      infants: param?.infants
-    })
+    if (param) {
+      this.searchForm.patchValue({
+        origin: param?.origin,
+        destination: param?.destination,
+        departureDate: new Date(param?.departureDate),
+        returnDate: new Date(param?.returnDate),
+        tripType: param?.tripType,
+        travelClass: param?.travelClass,
+        adults: param?.adults,
+        children: param?.children,
+        infants: param?.infants
+      });
+    }
   }
 
 
@@ -103,8 +105,8 @@ export class SearchComponent implements OnInit {
     this.searchForm = this.fb.group({
       origin: [''],
       destination: [''],
-      departureDate: [''],
-      returnDate: [''],
+      departureDate: new Date(),
+      returnDate: this.returnDate,
       tripType: ['return'],
       travelClass: ['ECONOMY'],
       adults: ['1'],
@@ -191,17 +193,17 @@ export class SearchComponent implements OnInit {
 
   }
 
-  onSelectOrigin(event: TypeaheadMatch) {
+  onSelectOrigin(event: TypeaheadMatch): void {
     console.log({ event });
     const { item } = event;
-    let { iataCode } = item as LocationData;
+    const { iataCode } = item as LocationData;
     this.origin = iataCode;
   }
 
-  onSelectDestination(event: TypeaheadMatch) {
+  onSelectDestination(event: TypeaheadMatch): void {
     console.log({ event });
     const { item } = event;
-    let { iataCode } = item as LocationData;
+    const { iataCode } = item as LocationData;
     this.destination = iataCode;
   }
 
