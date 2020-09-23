@@ -19,13 +19,13 @@ export class FlightListComponent implements OnInit {
   modalRef: BsModalRef;
   isMinTablet = false;
   constructor(private route: ActivatedRoute, private bsModalService: BsModalService,
-    private breakpointService: BreakpointService, private flightService: FlightService) { }
+              private breakpointService: BreakpointService, private flightService: FlightService) { }
 
   ngOnInit(): void {
     this.isMinTablet = this.breakpointService.isTabletBreakPoint();
     this.route.queryParams.subscribe((params) => {
       this.searchTerms = { ...params } as SearchParam;
-      let req = {
+      const req = {
         destinationLocationCode: this.searchTerms.destination,
         originLocationCode: this.searchTerms.origin,
         departureDate: this.searchTerms.departureDate,
@@ -33,9 +33,18 @@ export class FlightListComponent implements OnInit {
         adults: this.searchTerms.adults,
         children: this.searchTerms.children,
         infants: this.searchTerms.infants,
-        travelClass: this.searchTerms.travelClass
+        travelClass: this.searchTerms.travelClass,
+        nonStop: this.searchTerms.nonStop,
+        // includedAirlineCodes:  this.searchTerms.airlines,
+        // excludedAirlineCodes: this.searchTerms.excludedAirlineCodes,
+        currencyCode: this.searchTerms.currencyCode,
+        maxPrice: this.searchTerms.maxPrice
       } as RequestOption;
-      // this.getFlightOffers(req);
+      console.log({ req },'search params',this.searchTerms);
+
+      // if (req?.destinationLocationCode) {
+      //   this.getFlightOffers(req);
+      // }
       this.getTestData();
     });
   }

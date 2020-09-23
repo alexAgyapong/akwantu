@@ -24,7 +24,7 @@ export class FilterComponent implements OnInit, OnChanges {
   airlinesWithPrices: { code: string, price: number }[] = [];
 
   options: Options = {
-    floor: 200,
+    floor: 1000,
     ceil: 5000,
     step: 100,
     translate: (value: number): string => {
@@ -69,10 +69,10 @@ export class FilterComponent implements OnInit, OnChanges {
 
   private setupForm(): void {
     this.filterForm = this.fb.group({
-      stops: [''],
+      nonStop: [false],
       airlines: [''],
       maxPrice: [''],
-      currency: ['GBP']
+      currencyCode: ['EUR']
       // cabin: [''],
       // checkedBag: [''],
       // paymentMethod: ['']
@@ -88,8 +88,9 @@ export class FilterComponent implements OnInit, OnChanges {
 
   getAirlines(): void {
     this.getDictionaries();
-    const keys = Object.keys(this.dictionaries.carriers);
-    keys.forEach(key => {
+    if (!this.dictionaries?.carriers) { return; }
+    const keys = Object.keys(this.dictionaries?.carriers);
+    keys?.forEach(key => {
       const airline = { code: key, name: this.dictionaries.carriers[key], isChecked: false, price: 0 };
       if (airline) { this.airlines.push(airline); }
     });

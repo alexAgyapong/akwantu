@@ -14,8 +14,8 @@
     </button>
     <div class="pt-3" id="collapseStop" [collapse]="isCollapsed" [isAnimated]="true">
       <label class="custom-control custom-checkbox d-flex align-items-center ">
-        <input type="checkbox" class="custom-control-input" id="oneStop" formControlName="stops">
-        <span class="custom-control-label pt-1" for="oneStop">Direct</span>
+        <input type="checkbox" class="custom-control-input" id="nonStop" formControlName="nonStop">
+        <span class="custom-control-label pt-1" for="nonStop">Direct</span>
       </label>
     </div>
     <hr>
@@ -76,7 +76,7 @@
       </span>
     </button>
     <div class="mb-3 pt-3" id="collapseCurrency" [collapse]="isCurrencyCollapsed" [isAnimated]="true">
-      <select class="custom-select" formControlName="currency">
+      <select class="custom-select" formControlName="currencyCode">
         <!-- <option selected value="0">Anytime</option> -->
         <option *ngFor="let currency of currencies" [value]="currency?.value">{{currency?.name}}</option>
       </select>
