@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionaries, FlightOffer, FlightResponse } from 'src/app/shared/models/flight';
 import lodash from 'lodash';
 import { Options, LabelType } from 'ng5-slider';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filter',
@@ -39,7 +40,7 @@ export class FilterComponent implements OnInit, OnChanges {
   };
 
   currencies = [{ name: 'Pound Sterling', value: 'GBP' }, { name: 'Euro', value: 'EUR' }, { name: 'United States dollar', value: 'USD' }];
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.setAirlinesFares();
@@ -52,22 +53,29 @@ export class FilterComponent implements OnInit, OnChanges {
     this.formChanges();
   }
 
-  formChanges() {
-    this.filterForm.valueChanges.subscribe(input => console.log({ input })
-    );
+  formChanges(): void {
+    this.filterForm.valueChanges.pipe(debounceTime(1000)).subscribe(input => {
+      if (input) {
+        const airlines = Object.values(this.airlineCodes)?.toString();
+        const filters = { ...input, airlines };
+        this.sendFilters(filters);
+      }
+    });
   }
 
-
+  sendFilters(input: any): void {
+    this.router.navigate(['/flights'], { queryParams: input, queryParamsHandling: 'merge' });
+  }
 
   private setupForm(): void {
     this.filterForm = this.fb.group({
       stops: [''],
       airlines: [''],
       maxPrice: [''],
-      currency: ['GBP'],
-      cabin: [''],
-      checkedBag: [''],
-      paymentMethod: ['']
+      currency: ['GBP']
+      // cabin: [''],
+      // checkedBag: [''],
+      // paymentMethod: ['']
     });
   }
 
