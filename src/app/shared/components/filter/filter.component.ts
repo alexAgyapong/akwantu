@@ -70,7 +70,7 @@ export class FilterComponent implements OnInit, OnChanges {
   private setupForm(): void {
     this.filterForm = this.fb.group({
       nonStop: [false],
-      airlines: [''],
+      airlines: [true],
       maxPrice: [''],
       currencyCode: ['EUR']
       // cabin: [''],
@@ -94,6 +94,7 @@ export class FilterComponent implements OnInit, OnChanges {
       const airline = { code: key, name: this.dictionaries.carriers[key], isChecked: false, price: 0 };
       if (airline) { this.airlines.push(airline); }
     });
+    this.airlineCodes = this.airlines.map(x => x.code);
   }
 
   setAirlinesFares(): void {
@@ -120,6 +121,9 @@ export class FilterComponent implements OnInit, OnChanges {
     if (this.airlineCodes.some(x => x === key)) {
       this.airlineCodes.splice(this.airlineCodes.findIndex(x => x === key), 1);
     } else { this.airlineCodes?.push(key); }
+
+    console.log('codes here', this.airlineCodes, {key});
+
   }
 
   getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
