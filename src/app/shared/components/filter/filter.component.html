@@ -77,7 +77,7 @@
     </button>
     <div class="mb-3 pt-3" id="collapseCurrency" [collapse]="isCurrencyCollapsed" [isAnimated]="true">
       <select class="custom-select" formControlName="currency">
-        <option selected value="0">Anytime</option>
+        <!-- <option selected value="0">Anytime</option> -->
         <option *ngFor="let currency of currencies" [value]="currency?.value">{{currency?.name}}</option>
       </select>
     </div>

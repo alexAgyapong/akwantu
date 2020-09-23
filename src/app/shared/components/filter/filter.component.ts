@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionaries, FlightOffer, FlightResponse } from 'src/app/shared/models/flight';
 import lodash from 'lodash';
 import { Options, LabelType } from 'ng5-slider';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-filter',
@@ -37,8 +38,8 @@ export class FilterComponent implements OnInit, OnChanges {
     }
   };
 
-  currencies = [{ name: 'Pound Sterling', value: 'GBP' }, { name: 'Euro', value: 'EUR' }];
-  constructor(private fb: FormBuilder) { }
+  currencies = [{ name: 'Pound Sterling', value: 'GBP' }, { name: 'Euro', value: 'EUR' }, { name: 'United States dollar', value: 'USD' }];
+  constructor(private fb: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.setAirlinesFares();
@@ -63,7 +64,7 @@ export class FilterComponent implements OnInit, OnChanges {
       stops: [''],
       airlines: [''],
       maxPrice: [''],
-      currency: ['EUR'],
+      currency: ['GBP'],
       cabin: [''],
       checkedBag: [''],
       paymentMethod: ['']
@@ -75,11 +76,6 @@ export class FilterComponent implements OnInit, OnChanges {
     const response = JSON.parse(res) as FlightResponse;
     const { dictionaries } = response;
     this.dictionaries = dictionaries;
-  }
-
-  getFlightStops(flights: FlightOffer[]) {
-    const outboundTotal = flights[0]?.itineraries[0]?.segments?.length - 1;
-    const inboundTotal = flights[0]?.itineraries[flights[0]?.itineraries?.length - 1]?.segments?.length - 1;
   }
 
   getAirlines(): void {
@@ -118,11 +114,7 @@ export class FilterComponent implements OnInit, OnChanges {
   }
 
   getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
-    airlines?.forEach(x => {
-      prices?.forEach(p => {
-        if (x.code === p.code) { x.price = p.price; }
-      });
-    });
+    airlines?.forEach(airline => prices?.forEach(p => { if (airline.code === p.code) { airline.price = p.price; } }));
   }
 }
 
