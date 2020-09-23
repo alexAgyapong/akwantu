@@ -16,6 +16,8 @@ export class FlightService {
   getFlightOffers(req: RequestOption): Observable<any> {
     const url = `${environment.baseURL}/v2/shopping/flight-offers`;
     const params = this.setRequestParams(req);
+    console.log({params}, 'in service');
+
     return this.http.get<any>(url, { params }).pipe(tap(data => {
       console.log({ data });
       localStorage.setItem('offers', JSON.stringify(data));
@@ -24,7 +26,7 @@ export class FlightService {
   }
 
   setRequestParams(req: RequestOption): HttpParams {
-    const options = new HttpParams({
+    let options = new HttpParams({
       fromObject: {
         destinationLocationCode: req.destinationLocationCode,
         originLocationCode: req.originLocationCode,
@@ -34,14 +36,23 @@ export class FlightService {
         children: req?.children?.toString(),
         infants: req?.infants?.toString(),
         travelClass: req?.travelClass,
-        // includedAirlineCodes: req?.includedAirlineCodes,
-        // excludedAirlineCodes: req.excludedAirlineCodes,
-        // nonStop: req.nonStop?.toString(),
-        // currencyCode: req.currencyCode,
-        // maxPrice: req.maxPrice?.toString(),
+        nonStop: req?.nonStop?.toString(),
+        currencyCode: req?.currencyCode,
+        maxPrice: req.maxPrice?.toString(),
         // max: req.max?.toString()
       }
+
     });
+
+    if (req?.includedAirlineCodes) {
+      options = options.append('includedAirlineCodes', req.includedAirlineCodes)
+
+    }
+    if (req?.excludedAirlineCodes) {
+      options = options.append('excludedAirlineCodes', req.excludedAirlineCodes)
+    }
+
+    console.log({options});
 
     return options;
   }
