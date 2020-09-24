@@ -39,11 +39,17 @@
 </ng-template>
 
 <ng-template #filtersTemplate>
-  <h2 matDialogTitle>Dialog!</h2>
+  <h2 class="d-flex justify-content-between ">
+    <button class="btn btn-default" (click)="resetFilters()">Clear</button>
+   <span> Filters</span>
+   <button mat-button matDialogClose color="primary">Done</button>
+  </h2>
+ <!-- <div class="sticky-top bg-danger">
+ </div> -->
   <mat-dialog-content  class="pt-2">
     <app-filter [flights]= "offers$|async"></app-filter>
   </mat-dialog-content>
-  <mat-dialog-actions>
+  <!-- <mat-dialog-actions>
     <button mat-button matDialogClose color="primary">Dismiss</button>
-  </mat-dialog-actions>
+  </mat-dialog-actions> -->
 </ng-template>

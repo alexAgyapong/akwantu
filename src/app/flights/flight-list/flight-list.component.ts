@@ -90,4 +90,8 @@ export class FlightListComponent implements OnInit {
       }
       );
   }
+
+  resetFilters():void{
+    
+  }
 }
