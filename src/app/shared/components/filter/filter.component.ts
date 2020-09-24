@@ -22,6 +22,7 @@ export class FilterComponent implements OnInit, OnChanges {
   airlines: Airline[] = [];
   airlineCodes: string[] = [];
   airlinesWithPrices: { code: string, price: number }[] = [];
+  airlinesParam: any;
 
   options: Options = {
     floor: 1000,
@@ -49,6 +50,7 @@ export class FilterComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.setupForm();
     this.getAirlines();
+    this.patchForm();
     this.setAirlinesFares();
     this.formChanges();
   }
@@ -67,6 +69,29 @@ export class FilterComponent implements OnInit, OnChanges {
     this.router.navigate(['/flights'], { queryParams: input, queryParamsHandling: 'merge' });
   }
 
+  patchForm(): void {
+    this.route.queryParams.subscribe(params => {
+      const nonStop = params.nonStop;
+      this.airlinesParam = params.airlines;
+      const maxPrice = +params.maxPrice;
+      const currencyCode = params.currencyCode;
+
+      this.airlineCodes = this.airlinesParam?.split(',');
+      this.airlines = this.airlines?.filter(x => this.airlineCodes.includes(x.code));
+
+      this.filterForm.patchValue({
+        nonStop,
+        airlines: this.airlineCodes,
+        maxPrice,
+        currencyCode
+      });
+
+      console.log('all airline params', this.airlinesParam?.split(','));
+
+      console.log('after', this.filterForm.value);
+
+    });
+  }
   private setupForm(): void {
     this.filterForm = this.fb.group({
       nonStop: [false],
@@ -122,7 +147,7 @@ export class FilterComponent implements OnInit, OnChanges {
       this.airlineCodes.splice(this.airlineCodes.findIndex(x => x === key), 1);
     } else { this.airlineCodes?.push(key); }
 
-    console.log('codes here', this.airlineCodes, {key});
+    console.log('codes here', this.airlineCodes, { key });
 
   }
 
