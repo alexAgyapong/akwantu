@@ -33,7 +33,7 @@
     </button>
     <div class="pt-3" id="collapseStop" [collapse]="isAirlinesCollapsed" [isAnimated]="true">
       <span class="mt-3"></span>
-      <div *ngFor="let airline of airlines">
+      <!-- <div *ngFor="let airline of airlines">
         <span class="d-flex justify-content-between">
           <label class="custom-control custom-checkbox pb-2">
             <input type="checkbox" class="custom-control-input" [value]="airline?.code" [id]="airline?.code"
@@ -42,7 +42,17 @@
           </label>
           <span *ngIf="airline?.price">{{airline?.price|currency}}</span>
         </span>
-      </div>
+      </div> -->
+      <ng-container *ngFor="let control of airlineControls.controls; let i=index">
+        <span class="d-flex justify-content-between">
+          <label  class="custom-control custom-checkbox pb-2" >
+            <input type="checkbox" class="custom-control-input" id="i" [formControl]="control" (change)="getSelectedAirlines()">
+            <span class="custom-control-label pt-1" [attr.for]="i">{{airlines[i]?.name|titlecase}}</span>
+          </label>
+          <!-- <span *ngIf="airlines[i]?.price">{{airlines[i]?.price|currency}}</span> -->
+        </span>
+      </ng-container>
+
     </div>
     <hr>
     <button type="button" class="btn" (click)="isMaxPriceCollapsed = !isMaxPriceCollapsed"

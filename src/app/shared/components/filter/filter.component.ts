@@ -1,17 +1,19 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionaries, FlightOffer, FlightResponse } from 'src/app/shared/models/flight';
 import lodash from 'lodash';
 import { Options, LabelType } from 'ng5-slider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
+import { SearchParam } from '../../models/search-param';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent implements OnInit, OnChanges {
+export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() flights: FlightOffer[] = [];
   filterForm: FormGroup;
   isCollapsed = true;
@@ -22,7 +24,8 @@ export class FilterComponent implements OnInit, OnChanges {
   airlines: Airline[] = [];
   airlineCodes: string[] = [];
   airlinesWithPrices: { code: string, price: number }[] = [];
-  airlinesParam: any;
+  airlinesParam: string;
+  selectedAirlines = [];
 
   options: Options = {
     floor: 1000,
@@ -41,25 +44,39 @@ export class FilterComponent implements OnInit, OnChanges {
   };
 
   currencies = [{ name: 'Pound Sterling', value: 'GBP' }, { name: 'Euro', value: 'EUR' }, { name: 'United States dollar', value: 'USD' }];
+  subscription: Subscription;
+
+  get airlineControls(): FormArray {
+    return this.filterForm.get('airlines') as FormArray;
+  }
+
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.setAirlinesFares();
+    // this.setAirlinesFares();
   }
 
   ngOnInit(): void {
-    this.setupForm();
     this.getAirlines();
+    this.setupForm();
     this.patchForm();
     this.setAirlinesFares();
     this.formChanges();
   }
 
   formChanges(): void {
-    this.filterForm.valueChanges.pipe(debounceTime(1000)).subscribe(input => {
+    this.filterForm.valueChanges.pipe(debounceTime(1000)).subscribe((input) => {
       if (input) {
-        const airlines = Object.values(this.airlineCodes)?.toString();
-        const filters = { ...input, airlines };
+        const airlines = Object.values(this.selectedAirlines)?.toString();
+        const filters = {
+          currencyCode: input.currencyCode,
+          maxPrice: input.maxPrice,
+          nonStop: input.nonStop,
+          airlines: airlines,
+        }
+        console.log({ airlines }, { input });
+
+        // const filters = { ...input };
         this.sendFilters(filters);
       }
     });
@@ -70,38 +87,56 @@ export class FilterComponent implements OnInit, OnChanges {
   }
 
   patchForm(): void {
-    this.route.queryParams.subscribe(params => {
+    this.subscription = this.route.queryParams.subscribe(params => {
       const nonStop = params.nonStop;
       this.airlinesParam = params.airlines;
       const maxPrice = +params.maxPrice;
       const currencyCode = params.currencyCode;
 
-      this.airlineCodes = this.airlinesParam?.split(',');
-      this.airlines = this.airlines?.filter(x => this.airlineCodes.includes(x.code));
+      if (params) {
+        this.airlineCodes = this.airlinesParam?.split(',');
+        this.airlineCodes?.forEach(code => {
+          this.airlines?.forEach((airline, i) => {
+            if (airline.code === code) { airline.isChecked = true; }
+          })
+        })
+        // this.airlines = this.airlines?.filter(x => this.airlineCodes.includes(x.code));
 
-      this.filterForm.patchValue({
-        nonStop,
-        airlines: this.airlineCodes,
-        maxPrice,
-        currencyCode
-      });
 
-      console.log('all airline params', this.airlinesParam?.split(','));
+        this.filterForm?.patchValue({
+          nonStop,
+          maxPrice,
+          currencyCode
+        });
+
+        // this.airlines?.forEach((airline,i) => {
+        //   this.airlineControls.controls[i].setValue(airline.isChecked);
+        // })
+
+      }
+
+      console.log('all airline params', this.airlinesParam?.split(','), 'airlines', this.airlines, {params});
 
       console.log('after', this.filterForm.value);
 
     });
   }
+
   private setupForm(): void {
     this.filterForm = this.fb.group({
       nonStop: [false],
-      airlines: [true],
+      airlines: this.addAirlinesControls(),
       maxPrice: [''],
       currencyCode: ['EUR']
       // cabin: [''],
       // checkedBag: [''],
       // paymentMethod: ['']
     });
+  }
+
+  addAirlinesControls(): FormArray {
+    const control = this.airlines.map(el => this.fb.control(el.isChecked));
+    return this.fb.array(control);
   }
 
   private getDictionaries(): void {
@@ -119,7 +154,7 @@ export class FilterComponent implements OnInit, OnChanges {
       const airline = { code: key, name: this.dictionaries.carriers[key], isChecked: false, price: 0 };
       if (airline) { this.airlines.push(airline); }
     });
-    this.airlineCodes = this.airlines.map(x => x.code);
+    // this.airlineCodes = this.airlines.map(x => x.code);
   }
 
   setAirlinesFares(): void {
@@ -148,11 +183,26 @@ export class FilterComponent implements OnInit, OnChanges {
     } else { this.airlineCodes?.push(key); }
 
     console.log('codes here', this.airlineCodes, { key });
+  }
+
+  getSelectedAirlines(): void {
+    this.selectedAirlines = [];
+    this.airlineControls.controls.forEach((control, i) => {
+      if (control.value) {
+        this.selectedAirlines.push(this.airlines[i].code);
+        this.airlines[i].isChecked = true;
+      }
+    })
+    console.log('selected', this.selectedAirlines, 'all airlines', this.airlines);
 
   }
 
   getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
     airlines?.forEach(airline => prices?.forEach(p => { if (airline.code === p.code) { airline.price = p.price; } }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
 
