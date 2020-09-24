@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() flights: FlightOffer[] = [];
+  @Input() resetFilters = false;
   filterForm: FormGroup;
   isCollapsed = true;
   isMaxPriceCollapsed = true;
@@ -56,6 +57,11 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     // this.setAirlinesFares();
+    if (this.resetFilters && this.filterForm) {
+      this.selectedAirlines = [];
+      this.filterForm.reset();
+      this.filterForm.get('currencyCode').setValue('EUR');
+    }
   }
 
   ngOnInit(): void {
@@ -89,7 +95,7 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
 
   patchForm(): void {
     this.subscription = this.route.queryParams.subscribe(params => {
-      const nonStop = JSON.parse(params.nonStop);
+      const nonStop = JSON.parse(params?.nonStop || 'false');
       this.airlinesParam = params.airlines;
       const maxPrice = +params.maxPrice;
       const currencyCode = params.currencyCode;

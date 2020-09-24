@@ -8,7 +8,7 @@
   </div>
   <div *ngIf="!isMinTablet" class="row justify-content-center mb-3">
     <button class="btn btn-default px-5 mr-3" (click)="showFiltersModal(filtersTemplate)">Filter</button>
-    <button class="btn btn-secondary px-5">Sort</button>
+    <button class="btn btn-secondary px-5" (click)="showSortModal(sortTemplate)">Sort</button>
     <!-- <h2>Mobile filters and sort here...</h2> -->
     <!-- <app-filter [flights]= "offers$|async"></app-filter> -->
   </div>
@@ -40,16 +40,24 @@
 
 <ng-template #filtersTemplate>
   <h2 class="d-flex justify-content-between ">
-    <button class="btn btn-default" (click)="resetFilters()">Clear</button>
+    <button class="btn btn-default" (click)="resetFilters=true">Clear</button>
    <span> Filters</span>
    <button mat-button matDialogClose color="primary">Done</button>
   </h2>
  <!-- <div class="sticky-top bg-danger">
  </div> -->
   <mat-dialog-content  class="pt-2">
-    <app-filter [flights]= "offers$|async"></app-filter>
+    <app-filter [flights]= "offers$|async" [resetFilters]="resetFilters"></app-filter>
   </mat-dialog-content>
   <!-- <mat-dialog-actions>
     <button mat-button matDialogClose color="primary">Dismiss</button>
   </mat-dialog-actions> -->
 </ng-template>
+
+<ng-template #sortTemplate>
+  <mat-dialog-content  class="pt-2">
+    <!-- <app-filter [flights]= "offers$|async"></app-filter> -->
+    <h3>sOrt here...</h3>
+  </mat-dialog-content>
+</ng-template>
+

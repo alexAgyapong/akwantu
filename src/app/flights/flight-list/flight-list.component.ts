@@ -20,7 +20,7 @@ export class FlightListComponent implements OnInit {
   offers$ = new Observable<FlightOffer[]>();
   modalRef: BsModalRef;
   isMinTablet = false;
-  // dialog: MatDialog;
+  resetFilters: boolean;
 
   constructor(private route: ActivatedRoute,
     private bsModalService: BsModalService,
@@ -80,18 +80,11 @@ export class FlightListComponent implements OnInit {
   }
 
   showFiltersModal(template: TemplateRef<any>): void {
-    this.dialog.open(template,
-      {
-        // maxWidth: '100vw',
-        // maxHeight: '100vh',
-        // height: '100%',
-        // width: '100%'
-        panelClass: ['full-screen-modal']
-      }
-      );
+    this.dialog.open(template, { panelClass: ['full-screen-modal'] });
   }
 
-  resetFilters():void{
-    
+  showSortModal(template: TemplateRef<any>): void {
+    this.dialog.open(template, { panelClass: ['full-screen-modal'] });
   }
+
 }
