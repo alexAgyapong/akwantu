@@ -45,6 +45,7 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
 
   currencies = [{ name: 'Pound Sterling', value: 'GBP' }, { name: 'Euro', value: 'EUR' }, { name: 'United States dollar', value: 'USD' }];
   subscription: Subscription;
+  isFirstLoad = true;
 
   get airlineControls(): FormArray {
     return this.filterForm.get('airlines') as FormArray;
@@ -67,13 +68,13 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   formChanges(): void {
     this.filterForm.valueChanges.pipe(debounceTime(1000)).subscribe((input) => {
       if (input) {
-        const airlines = Object.values(this.selectedAirlines)?.toString();
+        const airlines = Object.values(this.selectedAirlines)?.toString() || this.airlinesParam;
         const filters = {
           currencyCode: input.currencyCode,
           maxPrice: input.maxPrice,
           nonStop: input.nonStop,
-          airlines: airlines,
-        }
+          airlines
+        };
         console.log({ airlines }, { input });
 
         // const filters = { ...input };
@@ -88,41 +89,37 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
 
   patchForm(): void {
     this.subscription = this.route.queryParams.subscribe(params => {
-      const nonStop = params.nonStop;
+      const nonStop = params.nonStop as boolean;
       this.airlinesParam = params.airlines;
       const maxPrice = +params.maxPrice;
       const currencyCode = params.currencyCode;
 
-      if (params) {
-        this.airlineCodes = this.airlinesParam?.split(',');
-        this.airlineCodes?.forEach(code => {
-          this.airlines?.forEach((airline, i) => {
-            if (airline.code === code) { airline.isChecked = true; }
-          })
-        })
-        // this.airlines = this.airlines?.filter(x => this.airlineCodes.includes(x.code));
-
-
-        this.filterForm?.patchValue({
-          nonStop,
-          maxPrice,
-          currencyCode
+      this.airlineCodes = this.airlinesParam?.split(',');
+      this.airlineCodes?.forEach(code => {
+        this.airlines?.forEach((airline, i) => {
+          if (airline.code === code) { airline.isChecked = true; }
         });
+      });
 
-        // this.airlines?.forEach((airline,i) => {
-        //   this.airlineControls.controls[i].setValue(airline.isChecked);
-        // })
+      this.filterForm?.patchValue({
+        // nonStop:params.nonStop,
+        maxPrice,
+        currencyCode
+      });
 
+      if (this.isFirstLoad) {
+        this.setAirlinesControls();
       }
-
-      console.log('all airline params', this.airlinesParam?.split(','), 'airlines', this.airlines, {params});
-
-      console.log('after', this.filterForm.value);
-
     });
   }
 
-  private setupForm(): void {
+  setAirlinesControls(): void {
+    this.airlines?.forEach((airline, i) => {
+      this.airlineControls.controls[i].setValue(airline.isChecked, { emitEvent: false });
+    });
+  }
+
+  setupForm(): void {
     this.filterForm = this.fb.group({
       nonStop: [false],
       airlines: this.addAirlinesControls(),
@@ -174,7 +171,6 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     this.getAirlinePrice(this.airlines, this.airlinesWithPrices);
-    console.log('with price', this.airlinesWithPrices, 'original', this.airlines);
   }
 
   getAirlineCodes(key: string): void {
@@ -182,19 +178,17 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
       this.airlineCodes.splice(this.airlineCodes.findIndex(x => x === key), 1);
     } else { this.airlineCodes?.push(key); }
 
-    console.log('codes here', this.airlineCodes, { key });
   }
 
   getSelectedAirlines(): void {
+    this.isFirstLoad = false;
     this.selectedAirlines = [];
     this.airlineControls.controls.forEach((control, i) => {
       if (control.value) {
         this.selectedAirlines.push(this.airlines[i].code);
         this.airlines[i].isChecked = true;
       }
-    })
-    console.log('selected', this.selectedAirlines, 'all airlines', this.airlines);
-
+    });
   }
 
   getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
