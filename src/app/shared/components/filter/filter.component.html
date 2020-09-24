@@ -32,7 +32,11 @@
       </span>
     </button>
     <div class="pt-3" id="collapseStop" [collapse]="isAirlinesCollapsed" [isAnimated]="true">
-      <span class="mt-3"></span>
+      <span class="mt-3">
+        <button *ngIf="!isAllSelected" class="btn btn-link" (click)="selectAll(true)">Select all</button>
+        <input type="hidden" formControlName="selectAll">
+        <button *ngIf="isAllSelected" class="btn btn-link" (click)="selectAll(false)">Clear all</button>
+      </span>
       <!-- <div *ngFor="let airline of airlines">
         <span class="d-flex justify-content-between">
           <label class="custom-control custom-checkbox pb-2">

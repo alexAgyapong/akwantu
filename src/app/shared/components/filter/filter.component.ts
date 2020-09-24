@@ -46,6 +46,7 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   currencies = [{ name: 'Pound Sterling', value: 'GBP' }, { name: 'Euro', value: 'EUR' }, { name: 'United States dollar', value: 'USD' }];
   subscription: Subscription;
   isFirstLoad = true;
+  isAllSelected: boolean;
 
   get airlineControls(): FormArray {
     return this.filterForm.get('airlines') as FormArray;
@@ -68,7 +69,9 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   formChanges(): void {
     this.filterForm.valueChanges.pipe(debounceTime(1000)).subscribe((input) => {
       if (input) {
-        const airlines = Object.values(this.selectedAirlines)?.toString() || this.airlinesParam;
+        console.log('slected alll', this.selectedAirlines);
+
+        const airlines = Object.values(this.selectedAirlines)?.toString();
         const filters = {
           currencyCode: input.currencyCode,
           maxPrice: input.maxPrice,
@@ -124,7 +127,8 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
       nonStop: [false],
       airlines: this.addAirlinesControls(),
       maxPrice: [''],
-      currencyCode: ['EUR']
+      currencyCode: ['EUR'],
+      selectAll: [true]
       // cabin: [''],
       // checkedBag: [''],
       // paymentMethod: ['']
@@ -193,6 +197,26 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
 
   getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
     airlines?.forEach(airline => prices?.forEach(p => { if (airline.code === p.code) { airline.price = p.price; } }));
+  }
+
+  selectAll(selectAll = false): void {
+    this.isFirstLoad = false;
+    this.selectedAirlines = [];
+
+    this.airlines?.forEach((airline, i) => {
+      if (selectAll) {
+        airline.isChecked = true;
+        this.isAllSelected = true;
+        this.selectedAirlines.push(this.airlines[i].code);
+        this.filterForm.get('selectAll').setValue(true);
+      } else {
+        airline.isChecked = false;
+        this.isAllSelected = false;
+        this.selectedAirlines = [];
+        this.filterForm.get('selectAll').setValue(false);
+      }
+      this.airlineControls.controls[i].setValue(airline.isChecked, { emitEvent: false });
+    });
   }
 
   ngOnDestroy(): void {
