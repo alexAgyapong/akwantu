@@ -177,12 +177,12 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
     this.getAirlinePrice(this.airlines, this.airlinesWithPrices);
   }
 
-  getAirlineCodes(key: string): void {
-    if (this.airlineCodes.some(x => x === key)) {
-      this.airlineCodes.splice(this.airlineCodes.findIndex(x => x === key), 1);
-    } else { this.airlineCodes?.push(key); }
+  // getAirlineCodes(key: string): void {
+  //   if (this.airlineCodes.some(x => x === key)) {
+  //     this.airlineCodes.splice(this.airlineCodes.findIndex(x => x === key), 1);
+  //   } else { this.airlineCodes?.push(key); }
 
-  }
+  // }
 
   getSelectedAirlines(): void {
     this.isFirstLoad = false;
@@ -196,7 +196,8 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
-    airlines?.forEach(airline => prices?.forEach(p => { if (airline.code === p.code) { airline.price = p.price; } }));
+    airlines?.forEach(airline => prices?.forEach(p => { if (airline.code === p.code) { airline.price = p.price; } console.log('all fares', this.airlines);
+    }));
   }
 
   selectAll(selectAll = false): void {
