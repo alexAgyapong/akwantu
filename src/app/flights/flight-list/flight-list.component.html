@@ -6,8 +6,14 @@
     <button class="btn btn-link" (click)="showSearchModal(search)"><span>{{searchTerms?.destination}}
         Destination</span></button>
   </div>
+  <div *ngIf="!isMinTablet" class="row justify-content-center mb-3">
+    <button class="btn btn-default px-5 mr-3" (click)="showFiltersModal(filtersTemplate)">Filter</button>
+    <button class="btn btn-secondary px-5">Sort</button>
+    <!-- <h2>Mobile filters and sort here...</h2> -->
+    <!-- <app-filter [flights]= "offers$|async"></app-filter> -->
+  </div>
   <div class="row">
-    <div class="col-sm-3">
+    <div *ngIf="isMinTablet" class="col-sm-3">
       <h3 class="mb-3">Filters</h3>
       <app-filter [flights]= "offers$|async"></app-filter>
     </div>
@@ -30,4 +36,14 @@
   <div class="modal-body">
     <app-search [isMobile]="true" (searchTerms)="getSearchTermsForMobile($event)"></app-search>
   </div>
+</ng-template>
+
+<ng-template #filtersTemplate>
+  <h2 matDialogTitle>Dialog!</h2>
+  <mat-dialog-content  class="pt-2">
+    <app-filter [flights]= "offers$|async"></app-filter>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button matDialogClose color="primary">Dismiss</button>
+  </mat-dialog-actions>
 </ng-template>

@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BreakpointService } from './../../shared/services/breakpoint.service';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-flight-list',
@@ -18,8 +20,13 @@ export class FlightListComponent implements OnInit {
   offers$ = new Observable<FlightOffer[]>();
   modalRef: BsModalRef;
   isMinTablet = false;
-  constructor(private route: ActivatedRoute, private bsModalService: BsModalService,
-              private breakpointService: BreakpointService, private flightService: FlightService) { }
+  // dialog: MatDialog;
+
+  constructor(private route: ActivatedRoute,
+    private bsModalService: BsModalService,
+    private breakpointService: BreakpointService,
+    private flightService: FlightService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.isMinTablet = this.breakpointService.isTabletBreakPoint();
@@ -40,7 +47,7 @@ export class FlightListComponent implements OnInit {
         currencyCode: this.searchTerms.currencyCode,
         maxPrice: this.searchTerms.maxPrice
       } as RequestOption;
-      console.log({ req },'search params',this.searchTerms);
+      console.log({ req }, 'search params', this.searchTerms);
 
       // if (req?.destinationLocationCode) {
       //   this.getFlightOffers(req);
@@ -72,4 +79,15 @@ export class FlightListComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
+  showFiltersModal(template: TemplateRef<any>): void {
+    this.dialog.open(template,
+      {
+        // maxWidth: '100vw',
+        // maxHeight: '100vh',
+        // height: '100%',
+        // width: '100%'
+        panelClass: ['full-screen-modal']
+      }
+      );
+  }
 }
