@@ -78,9 +78,6 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
           nonStop: input.nonStop,
           airlines
         };
-        console.log({ airlines }, { input });
-
-        // const filters = { ...input };
         this.sendFilters(filters);
       }
     });
@@ -92,7 +89,7 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
 
   patchForm(): void {
     this.subscription = this.route.queryParams.subscribe(params => {
-      const nonStop = params.nonStop as boolean;
+      const nonStop = JSON.parse(params.nonStop);
       this.airlinesParam = params.airlines;
       const maxPrice = +params.maxPrice;
       const currencyCode = params.currencyCode;
@@ -104,8 +101,9 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
         });
       });
 
-      this.filterForm?.patchValue({
-        // nonStop:params.nonStop,
+
+      this.filterForm.patchValue({
+        nonStop,
         maxPrice,
         currencyCode
       });
@@ -177,13 +175,6 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
     this.getAirlinePrice(this.airlines, this.airlinesWithPrices);
   }
 
-  // getAirlineCodes(key: string): void {
-  //   if (this.airlineCodes.some(x => x === key)) {
-  //     this.airlineCodes.splice(this.airlineCodes.findIndex(x => x === key), 1);
-  //   } else { this.airlineCodes?.push(key); }
-
-  // }
-
   getSelectedAirlines(): void {
     this.isFirstLoad = false;
     this.selectedAirlines = [];
@@ -196,7 +187,8 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getAirlinePrice = (airlines: Airline[], prices: { code: string, price: number }[]) => {
-    airlines?.forEach(airline => prices?.forEach(p => { if (airline.code === p.code) { airline.price = p.price; } console.log('all fares', this.airlines);
+    airlines?.forEach(airline => prices?.forEach(p => {
+      if (airline.code === p.code) { airline.price = p.price; }
     }));
   }
 
