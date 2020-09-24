@@ -17,10 +17,10 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() flights: FlightOffer[] = [];
   @Input() resetFilters = false;
   filterForm: FormGroup;
-  isCollapsed = true;
-  isMaxPriceCollapsed = true;
-  isAirlinesCollapsed = true;
-  isCurrencyCollapsed = true;
+  isCollapsed = false;
+  isMaxPriceCollapsed = false;
+  isAirlinesCollapsed = false;
+  isCurrencyCollapsed = false;
   dictionaries: Dictionaries;
   airlines: Airline[] = [];
   airlineCodes: string[] = [];
