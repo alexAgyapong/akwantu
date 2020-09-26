@@ -10,6 +10,7 @@ import { LocationService } from './../../services/location.service';
 import { SearchParam } from '../../models/search-param';
 
 import moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-search',
@@ -53,7 +54,9 @@ export class SearchComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private locationService: LocationService,
-    private bsModalService: BsModalService, private router: Router, private route: ActivatedRoute) { }
+    private bsModalService: BsModalService,
+    private dialog:MatDialog,
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     console.log('moment date', this.returnDate)

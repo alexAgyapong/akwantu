@@ -18,12 +18,13 @@
     <div class="form-group col-sm-2">
       <label for="origin">From</label>
       <input class="form-control" type="search" id="origin" formControlName="origin" [typeahead]="suggestions$"
-        [typeaheadAsync]="true" typeaheadOptionField="name"  (typeaheadOnSelect)="onSelectOrigin($event)">
+        [typeaheadAsync]="true" typeaheadOptionField="name" (typeaheadOnSelect)="onSelectOrigin($event)">
     </div>
     <div class="form-group col-sm-2">
       <label for="destination">To</label>
       <input class="form-control" type="search" id="destination" formControlName="destination"
-        [typeahead]="destinationSuggestions$" [typeaheadAsync]="true" typeaheadOptionField="name"  (typeaheadOnSelect)="onSelectDestination($event)">
+        [typeahead]="destinationSuggestions$" [typeaheadAsync]="true" typeaheadOptionField="name"
+        (typeaheadOnSelect)="onSelectDestination($event)">
     </div>
     <div class="form-group col-sm-3">
       <div class="d-flex">
@@ -85,7 +86,7 @@
     <div class="form-group col-12 pt-3">
       <div class="row">
         <span class="col-6">Adult 12+</span>
-        <span class="col-6 d-flex justify-content-between">
+        <span class="col-6 d-flex justify-content-between pl-sm-0">
           <button class="btn-icon" (click)="decreaseNumber('adults')">
             <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
           </button>
@@ -99,12 +100,12 @@
     <div class="form-group col-12 ">
       <div class="row">
         <span class="col-6">Children 2-11</span>
-        <span class="col-6 d-flex justify-content-between">
+        <span class="col-6 d-flex justify-content-between pl-sm-0">
           <button class="btn-icon" (click)="decreaseNumber('children')">
             <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
           </button>
           <input type="text" class="plain-text text-center" formControlName="children" />
-          <button class="btn-icon" (click)="increaseNumber('children')">
+          <button class="btn-icon " (click)="increaseNumber('children')">
             <mat-icon class="icon-display text-secondary">control_point</mat-icon>
           </button>
         </span>
@@ -113,7 +114,7 @@
     <div class="form-group col-12">
       <div class="row">
         <span class="col-6">Infants under 2</span>
-        <span class="col-6 d-flex justify-content-between">
+        <span class="col-6 d-flex justify-content-between pl-sm-0">
           <button class="btn-icon" (click)="decreaseNumber('infants')">
             <mat-icon class="icon-display text-black-50">remove_circle_outline</mat-icon>
           </button>
