@@ -49,6 +49,10 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
   isFirstLoad = true;
   isAllSelected: boolean;
 
+  private readonly defaultMaxPrice = 1000;
+
+  private readonly defaultCurrencyCode = 'EUR';
+
   get airlineControls(): FormArray {
     return this.filterForm.get('airlines') as FormArray;
   }
@@ -60,7 +64,7 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
     if (this.resetFilters && this.filterForm) {
       this.selectedAirlines = [];
       this.filterForm.reset();
-      this.filterForm.get('currencyCode').setValue('EUR');
+      this.filterForm.get('currencyCode').setValue(this.defaultCurrencyCode);
     }
   }
 
@@ -110,8 +114,8 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
 
       this.filterForm.patchValue({
         nonStop,
-        maxPrice,
-        currencyCode
+        maxPrice: maxPrice ? maxPrice : this.defaultMaxPrice,
+        currencyCode: currencyCode ? currencyCode : this.defaultCurrencyCode
       });
 
       if (this.isFirstLoad) {
@@ -131,7 +135,7 @@ export class FilterComponent implements OnInit, OnChanges, OnDestroy {
       nonStop: [false],
       airlines: this.addAirlinesControls(),
       maxPrice: [''],
-      currencyCode: ['EUR'],
+      currencyCode: [this.defaultCurrencyCode],
       selectAll: [true]
       // cabin: [''],
       // checkedBag: [''],
